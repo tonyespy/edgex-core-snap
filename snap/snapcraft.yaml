@@ -46,3 +46,19 @@ parts:
     # example overide:
     # zulu:
     #     amd64: https://www.azul.com/downloads/zulu/zdk-8-ga-linux_x64.tar.gz
+
+  consul:
+    plugin: shell
+    after: [go]
+    source: git@github.com:hashicorp/consul.git
+    source-tag: v0.7.3
+    shell: bash
+    shell-flags: ['-eux', '-o', 'pipefail']
+    shell-command: |
+      export GOROOT="$SNAPDIR/parts/go/install"
+      export GOPATH="$SNAPDIR/parts/consul/"
+      export PATH="$GOROOT/bin:$PATH"
+
+      go version
+
+      make dev
