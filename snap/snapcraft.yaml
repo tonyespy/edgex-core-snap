@@ -1,0 +1,48 @@
+name: edgex-core-snap
+version: '0.2.0+barca'
+summary: Provides a full set of Edgex Foundry core microservices.
+description: |
+ This snap provides a full set of Edgxe Foundry core microservices,
+ This snap is currently based on the 'Barcalona' release of EdgeX,
+ where most of core microservices are written in Java.  The notable
+ exception is consul, which is the core configuration microservice.
+ This snap includes a shared Zulu JRE and Go runtime, as consul
+ requires a later version of Go than that provided by Ubuntu 16.04 LTS.
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+parts:
+  # This part and its associated plugin were taken from the docker snap:
+  #
+  # https://github.com/docker/docker-snap
+  go:
+    plugin: gobuild
+    source: https://storage.googleapis.com/golang/go1.8.3.src.tar.gz
+    #source: ./go1.8.3.src.tar.gz
+    source-type: tar
+    # NOTE - both the jre & go install LICENSE to root-dir of the snap
+    # which breaks when 'stage' runs.  The only workaround so far is
+    # is to not stage these files.  This needs a better solution long-term.
+    stage:
+      - -LICENSE
+    prime:
+      - -*
+    build-packages:
+      - golang-go
+      - rsync
+      - build-essential
+      - netbase
+      - python3-pyelftools
+
+  # This part and its associated plugin (x-zulu-jre.py) were taken from
+  # the openhab snap:
+  #
+  # https://github.com/kubiko/openhab-snap
+  jre:
+    plugin: zulu-jre
+    # zulu supported architectures(armhf, arm64,  amd64) are already handled by plugin itself
+    # define here overide for pluging's defaults, or to add additional architectures
+    # example overide:
+    # zulu:
+    #     amd64: https://www.azul.com/downloads/zulu/zdk-8-ga-linux_x64.tar.gz
