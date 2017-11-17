@@ -18,8 +18,8 @@ parts:
   # https://github.com/docker/docker-snap
   go:
     plugin: gobuild
-    source: https://storage.googleapis.com/golang/go1.8.3.src.tar.gz
-    #source: ./go1.8.3.src.tar.gz
+    source: https://storage.googleapis.com/golang/go1.9.2.src.tar.gz
+    # source: ./go1.9.2.src.tar.gz
     source-type: tar
     # NOTE - both the jre & go install LICENSE to root-dir of the snap
     # which breaks when 'stage' runs.  The only workaround so far is
@@ -49,16 +49,31 @@ parts:
 
   consul:
     plugin: shell
-    after: [go]
     source: git@github.com:hashicorp/consul.git
-    source-tag: v0.7.3
+    # source: ./consul
+    # source-tag: v0.7.3
     shell: bash
     shell-flags: ['-eux', '-o', 'pipefail']
     shell-command: |
       export GOROOT="$SNAPDIR/parts/go/install"
-      export GOPATH="$SNAPDIR/parts/consul/"
       export PATH="$GOROOT/bin:$PATH"
 
       go version
 
+      mkdir -p .gopath/src/github.com/hashicorp
+      export GOPATH="$PWD/.gopath"
+      export PATH="$GOPATH/bin:$PATH"
+      ln -s "$PWD" .gopath/src/github.com/hashicorp/consul
+
+      pushd .gopath/src/github.com/hashicorp/consul
       make dev
+      popd
+
+      consulBin='.gopath/src/github.com/hashicorp/consul/pkg/linux_amd64/consul'
+      "$consulBin" -v
+      install -d "$SNAPCRAFT_PART_INSTALL/bin"
+      install -T "$(readlink -f "$consulBin")" "$SNAPCRAFT_PART_INSTALL/bin/consul"
+    after:
+      - go
+    build-packages:
+      - make
