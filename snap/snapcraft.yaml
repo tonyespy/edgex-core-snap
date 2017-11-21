@@ -51,7 +51,8 @@ parts:
     plugin: shell
     source: git@github.com:hashicorp/consul.git
     # source: ./consul
-    # source-tag: v0.7.3
+    source-tag: v0.7.3
+    prepare: git apply $SNAPCRAFT_STAGE/0001-Link-all-dependencies-in-vendor-folder-to-the-custom.patch
     shell: bash
     shell-flags: ['-eux', '-o', 'pipefail']
     shell-command: |
@@ -66,7 +67,7 @@ parts:
       ln -s "$PWD" .gopath/src/github.com/hashicorp/consul
 
       pushd .gopath/src/github.com/hashicorp/consul
-      make dev
+      make bin
       popd
 
       consulBin='.gopath/src/github.com/hashicorp/consul/pkg/linux_amd64/consul'
@@ -75,5 +76,11 @@ parts:
       install -T "$(readlink -f "$consulBin")" "$SNAPCRAFT_PART_INSTALL/bin/consul"
     after:
       - go
+      - patch
     build-packages:
       - make
+  patch:
+    source: patches
+    plugin: dump
+    prime:
+      - -*
