@@ -84,3 +84,17 @@ parts:
     plugin: dump
     prime:
       - -*
+  config-seed:
+    source: git@github.com:edgexfoundry/core-config-seed.git
+    source-branch: barcelona
+    plugin: maven
+    install: |
+      echo "Installing config files"
+      install -d "$SNAPCRAFT_PART_INSTALL/config"
+      for i in `ls ./config`; do
+        install -d "$SNAPCRAFT_PART_INSTALL/config/$i"; done
+      for i in `ls ./config`; do
+        cp "./config/$i/application.properties" "$SNAPCRAFT_PART_INSTALL/config/$i/"; done
+
+    build-packages:
+      - ca-certificates-java
