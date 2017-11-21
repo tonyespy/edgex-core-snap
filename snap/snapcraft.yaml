@@ -59,6 +59,9 @@ parts:
       export GOROOT="$SNAPDIR/parts/go/install"
       export PATH="$GOROOT/bin:$PATH"
 
+      export XC_ARCH="amd64"
+      export XC_OS="linux"
+
       go version
 
       mkdir -p .gopath/src/github.com/hashicorp
