@@ -12,6 +12,16 @@ description: |
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
+apps:
+  consul:
+    command: bin/start-consul.sh
+    daemon: simple
+    # TODO: add stop-command
+  core-config-seed:
+    command: bin/start-config-seed.sh
+  consul-cli:
+    command: bin/consul
+
 parts:
   # This part and its associated plugin were taken from the docker snap:
   #
@@ -93,11 +103,44 @@ parts:
     plugin: maven
     install: |
       echo "Installing config files"
-      install -d "$SNAPCRAFT_PART_INSTALL/jar/config"
-      for i in `ls ./config`; do
-        install -d "$SNAPCRAFT_PART_INSTALL/jar/config/$i"; done
-      for i in `ls ./config`; do
-        cp "./config/$i/application.properties" "$SNAPCRAFT_PART_INSTALL/jar/config/$i/"; done
 
+      # The logic following logic is all handled by DockerFile for
+      # the EdgeX core-config-seed docker image.
+      install -d "$SNAPCRAFT_PART_INSTALL/jar/config-seed"
+      mv "$SNAPCRAFT_PART_INSTALL/jar/core-config-seed-0.2.1-SNAPSHOT.jar" \
+         "$SNAPCRAFT_PART_INSTALL/jar/config-seed/core-config-seed.jar"
+
+      install -d "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config"
+      for i in `ls ./config`; do
+        install -d "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config/$i"; done
+      for i in `ls ./config`; do
+        cp "./config/$i/application.properties" \
+           "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config/$i/"; done
+      cp "./docker-files/application.properties" "$SNAPCRAFT_PART_INSTALL/jar/config-seed"
     build-packages:
       - ca-certificates-java
+  config-common:
+    plugin: dump
+    source: .
+    stage:
+      - bin/start-consul.sh
+      - bin/start-config-seed.sh      
+  curl:
+    configflags:
+    - --enable-static
+    - --enable-shared
+    - --disable-manual
+    plugin: autotools
+    source: http://curl.haxx.se/download/curl-7.44.0.tar.bz2
+    source-type: tar
+    stage-packages:
+      - coreutils
+    prime:
+    - -lib/*.a
+    - -lib/pkgconfig
+    - -lib/*.la
+    - -usr/share
+    - -usr/sbin/chroot
+    - -usr/lib
+    - -include
+    - -share
