@@ -19,6 +19,7 @@ apps:
     # TODO: add stop-command
   core-config-seed:
     command: bin/start-config-seed.sh
+    daemon: oneshot
   consul-cli:
     command: bin/consul
 
@@ -26,6 +27,11 @@ parts:
   # This part and its associated plugin were taken from the docker snap:
   #
   # https://github.com/docker/docker-snap
+  #
+  # TODO - this approach is less than ideal with respect to security, as
+  # it CVEs are not automatically handled. At some point, this part should
+  # be re-worked to pull the go binary from the bionic Debian package.
+  #
   go:
     plugin: gobuild
     source: https://storage.googleapis.com/golang/go1.9.2.src.tar.gz
@@ -116,7 +122,8 @@ parts:
       for i in `ls ./config`; do
         cp "./config/$i/application.properties" \
            "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config/$i/"; done
-      cp "./docker-files/application.properties" "$SNAPCRAFT_PART_INSTALL/jar/config-seed"
+      cat ./docker-files/application.properties | sed s/edgex-core-consul/127.0.0.1/ > \
+         "$SNAPCRAFT_PART_INSTALL/jar/config-seed/application.properties"
     build-packages:
       - ca-certificates-java
   config-common:
