@@ -240,3 +240,17 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler/support-scheduler.jar"
       cat ./docker-files/application.properties | sed s/edgex-support-scheduler/127.0.0.1/ > \
          "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler/application.properties"
+  export-client:
+    source: git@github.com:edgexfoundry/export-client.git
+    source-branch: barcelona
+    plugin: maven
+    install: |
+      echo "Installing export-client files"
+
+      # The logic following logic is all handled by DockerFile for
+      # the EdgeX export-client docker image.
+      install -d "$SNAPCRAFT_PART_INSTALL/jar/export-client"
+      mv "$SNAPCRAFT_PART_INSTALL/jar/export-client-0.2.1-SNAPSHOT.jar" \
+         "$SNAPCRAFT_PART_INSTALL/jar/export-client/export-client.jar"
+      cat ./docker-files/application.properties | sed s/edgex-export-client/127.0.0.1/ > \
+         "$SNAPCRAFT_PART_INSTALL/jar/export-client/application.properties"
