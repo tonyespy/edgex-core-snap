@@ -226,3 +226,17 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/core-command/core-command.jar"
       cat ./docker-files/application.properties | sed s/edgex-core-command/127.0.0.1/ > \
          "$SNAPCRAFT_PART_INSTALL/jar/core-command/application.properties"
+  support-scheduler:
+    source: git@github.com:edgexfoundry/support-scheduler.git
+    source-branch: barcelona
+    plugin: maven
+    install: |
+      echo "Installing support-scheduler files"
+
+      # The logic following logic is all handled by DockerFile for
+      # the EdgeX support-scheduler docker image.
+      install -d "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler"
+      mv "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler-0.2.1-SNAPSHOT.jar" \
+         "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler/support-scheduler.jar"
+      cat ./docker-files/application.properties | sed s/edgex-support-scheduler/127.0.0.1/ > \
+         "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler/application.properties"
