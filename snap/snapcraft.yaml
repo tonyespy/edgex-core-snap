@@ -268,3 +268,17 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/export-distro/export-distro.jar"
       cat ./docker-files/application.properties | sed s/edgex-export-distro/127.0.0.1/ > \
          "$SNAPCRAFT_PART_INSTALL/jar/export-distro/application.properties"
+  support-rulesengine:
+    source: git@github.com:edgexfoundry/support-rulesengine.git
+    source-branch: barcelona
+    plugin: maven
+    install: |
+      echo "Installing support-rulesengine files"
+
+      # The logic following logic is all handled by DockerFile for
+      # the EdgeX support-rulesengine docker image.
+      install -d "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine"
+      mv "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine-0.2.1-SNAPSHOT.jar" \
+         "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine/support-rulesengine.jar"
+      cat ./docker-files/application.properties | sed s/edgex-support-rulesengine/127.0.0.1/ > \
+         "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine/application.properties"
