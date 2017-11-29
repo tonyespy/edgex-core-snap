@@ -254,3 +254,17 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/export-client/export-client.jar"
       cat ./docker-files/application.properties | sed s/edgex-export-client/127.0.0.1/ > \
          "$SNAPCRAFT_PART_INSTALL/jar/export-client/application.properties"
+  export-distro:
+    source: git@github.com:edgexfoundry/export-distro.git
+    source-branch: barcelona
+    plugin: maven
+    install: |
+      echo "Installing export-distro files"
+
+      # The logic following logic is all handled by DockerFile for
+      # the EdgeX export-distro docker image.
+      install -d "$SNAPCRAFT_PART_INSTALL/jar/export-distro"
+      mv "$SNAPCRAFT_PART_INSTALL/jar/export-distro-0.2.1-SNAPSHOT.jar" \
+         "$SNAPCRAFT_PART_INSTALL/jar/export-distro/export-distro.jar"
+      cat ./docker-files/application.properties | sed s/edgex-export-distro/127.0.0.1/ > \
+         "$SNAPCRAFT_PART_INSTALL/jar/export-distro/application.properties"
