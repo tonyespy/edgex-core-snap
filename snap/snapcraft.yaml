@@ -198,3 +198,17 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/support-notifications/support-notifications.jar"
       cat ./docker-files/application.properties | sed s/edgex-support-notifications/127.0.0.1/ > \
          "$SNAPCRAFT_PART_INSTALL/jar/support-notifications/application.properties"
+  core-metadata:
+    source: git@github.com:edgexfoundry/core-metadata.git
+    source-branch: barcelona
+    plugin: maven
+    install: |
+      echo "Installing core-metadata files"
+
+      # The logic following logic is all handled by DockerFile for
+      # the EdgeX core-metadata docker image.
+      install -d "$SNAPCRAFT_PART_INSTALL/jar/core-metadata"
+      mv "$SNAPCRAFT_PART_INSTALL/jar/core-metadata-0.2.1-SNAPSHOT.jar" \
+         "$SNAPCRAFT_PART_INSTALL/jar/core-metadata/core-metadata.jar"
+      cat ./docker-files/application.properties | sed s/edgex-core-metadata/127.0.0.1/ > \
+         "$SNAPCRAFT_PART_INSTALL/jar/core-metadata/application.properties"
