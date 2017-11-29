@@ -282,3 +282,17 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine/support-rulesengine.jar"
       cat ./docker-files/application.properties | sed s/edgex-support-rulesengine/127.0.0.1/ > \
          "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine/application.properties"
+  device-virtual:
+    source: git@github.com:edgexfoundry/device-virtual.git
+    source-branch: barcelona
+    plugin: maven
+    install: |
+      echo "Installing device-virtual files"
+
+      # The logic following logic is all handled by DockerFile for
+      # the EdgeX device-virtual docker image.
+      install -d "$SNAPCRAFT_PART_INSTALL/jar/device-virtual"
+      mv "$SNAPCRAFT_PART_INSTALL/jar/device-virtual-0.2.1-SNAPSHOT.jar" \
+         "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/device-virtual.jar"
+      cat ./docker-files/application.properties | sed s/edgex-device-virtual/127.0.0.1/ > \
+         "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/application.properties"
