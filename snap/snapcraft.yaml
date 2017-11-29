@@ -212,3 +212,17 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/core-metadata/core-metadata.jar"
       cat ./docker-files/application.properties | sed s/edgex-core-metadata/127.0.0.1/ > \
          "$SNAPCRAFT_PART_INSTALL/jar/core-metadata/application.properties"
+  core-command:
+    source: git@github.com:edgexfoundry/core-command.git
+    source-branch: barcelona
+    plugin: maven
+    install: |
+      echo "Installing core-command files"
+
+      # The logic following logic is all handled by DockerFile for
+      # the EdgeX core-command docker image.
+      install -d "$SNAPCRAFT_PART_INSTALL/jar/core-command"
+      mv "$SNAPCRAFT_PART_INSTALL/jar/core-command-0.2.1-SNAPSHOT.jar" \
+         "$SNAPCRAFT_PART_INSTALL/jar/core-command/core-command.jar"
+      cat ./docker-files/application.properties | sed s/edgex-core-command/127.0.0.1/ > \
+         "$SNAPCRAFT_PART_INSTALL/jar/core-command/application.properties"
