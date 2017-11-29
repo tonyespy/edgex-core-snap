@@ -184,3 +184,17 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/support-logging/support-logging.jar"
       cat ./docker-files/application.properties | sed s/edgex-support-logging/127.0.0.1/ > \
          "$SNAPCRAFT_PART_INSTALL/jar/support-logging/application.properties"
+  support-notifications:
+    source: git@github.com:edgexfoundry/support-notifications.git
+    source-branch: barcelona
+    plugin: maven
+    install: |
+      echo "Installing support-notifications files"
+
+      # The logic following logic is all handled by DockerFile for
+      # the EdgeX support-notifications docker image.
+      install -d "$SNAPCRAFT_PART_INSTALL/jar/support-notifications"
+      mv "$SNAPCRAFT_PART_INSTALL/jar/support-notifications-0.2.1-SNAPSHOT.jar" \
+         "$SNAPCRAFT_PART_INSTALL/jar/support-notifications/support-notifications.jar"
+      cat ./docker-files/application.properties | sed s/edgex-support-notifications/127.0.0.1/ > \
+         "$SNAPCRAFT_PART_INSTALL/jar/support-notifications/application.properties"
