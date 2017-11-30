@@ -167,9 +167,15 @@ parts:
     # is to not stage these files.  This needs a better solution long-term.
     stage:
       - -README.md
-    organize:
-      init_mongo.js: mongo/
-      launch-edgex-mongo.sh: mongo/
+    install: |
+      echo "Installing mongo-config files"
+      echo "DIR=`pwd`"
+      echo "SNAPCRAFT_PART_INSTALL=$SNAPCRAFT_PART_INSTALL"
+      install -d "$SNAPCRAFT_PART_INSTALL/mongo"
+      cat ./launch-edgex-mongo.sh | sed s/\$SLEEP_TIME_BEFORE_CONFIG/10/ > \
+         "$SNAPCRAFT_PART_INSTALL/mongo/launch-edgex-mongo.sh"
+      mv "$SNAPCRAFT_PART_INSTALL/init_mongo.js" \
+         "$SNAPCRAFT_PART_INSTALL/mongo/install_mongo.js"
   core-data:
     source: git@github.com:edgexfoundry/core-data.git
     source-branch: barcelona
