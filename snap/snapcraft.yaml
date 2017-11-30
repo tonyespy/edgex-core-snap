@@ -20,6 +20,9 @@ apps:
   core-config-seed:
     command: bin/start-config-seed.sh
     daemon: oneshot
+  mongo:
+    command: mongo/launch-edgex-mongo.sh
+    daemon: simple
   consul-cli:
     command: bin/consul
 
@@ -156,6 +159,17 @@ parts:
    plugin: dump
    stage-packages:
    - libssl1.0.0
+  mongo-config:
+    source: git@github.com:edgexfoundry/docker-edgex-mongo.git
+    plugin: dump
+    # NOTE - both the mongo-config & go install README.md to root-dir of the snap
+    # which breaks when 'stage' runs.  The only workaround so far is
+    # is to not stage these files.  This needs a better solution long-term.
+    stage:
+      - -README.md
+    organize:
+      init_mongo.js: mongo/
+      launch-edgex-mongo.sh: mongo/
   core-data:
     source: git@github.com:edgexfoundry/core-data.git
     source-branch: barcelona
