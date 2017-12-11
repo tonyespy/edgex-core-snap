@@ -177,6 +177,7 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/mongo/launch-edgex-mongo.sh"
       mv "$SNAPCRAFT_PART_INSTALL/init_mongo.js" \
          "$SNAPCRAFT_PART_INSTALL/mongo/init_mongo.js"
+      chmod 755 "$SNAPCRAFT_PART_INSTALL/mongo/launch-edgex-mongo.sh"
   core-data:
     source: git@github.com:edgexfoundry/core-data.git
     source-branch: barcelona
