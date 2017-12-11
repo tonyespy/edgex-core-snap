@@ -19,6 +19,8 @@ apps:
     # TODO: add stop-command
   core-config-seed:
     command: bin/start-config-seed.sh
+  start-edgex:
+    command: bin/start-edgex.sh
   mongo:
     command: mongo/launch-edgex-mongo.sh
   consul-cli:
@@ -133,6 +135,7 @@ parts:
     stage:
       - bin/start-consul.sh
       - bin/start-config-seed.sh
+      - bin/start-edgex.sh
   curl:
     configflags:
     - --enable-static
