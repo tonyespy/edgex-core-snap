@@ -64,5 +64,7 @@ $SNAP/jar/export-distro/export-distro.jar &
 sleep 60
 
 echo "Starting device-virtual"
+cd $SNAP/jar/device-virtual
+
 $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
 $SNAP/jar/device-virtual/device-virtual.jar &
