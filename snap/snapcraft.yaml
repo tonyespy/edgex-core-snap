@@ -11,20 +11,33 @@ description: |
 
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
+#grade: stable
+#confinement: strict
+#
+# TODO: still a few bugs to work out for confinement;
+# seems that there are apparmor denials being generated
+# for open calls to /var/lib/snapd/void/. This directory
+# seems to include all of the individual log files for
+# each EdgeX micro service.
 
 apps:
   consul:
     command: bin/start-consul.sh
     daemon: simple
     # TODO: add stop-command
+    plugs: [network, network-bind]
   core-config-seed:
     command: bin/start-config-seed.sh
+    plugs: [network, network-bind]
   start-edgex:
     command: bin/start-edgex.sh
+    plugs: [network, network-bind]
   mongo:
     command: mongo/launch-edgex-mongo.sh
+    plugs: [network, network-bind]
   consul-cli:
     command: bin/consul
+    plugs: [network, network-bind]
 
 parts:
   # This part and its associated plugin were taken from the docker snap:
