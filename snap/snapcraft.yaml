@@ -1,5 +1,5 @@
 name: edgex-core-snap
-version: '0.2.0+barca'
+version: '0.2.1+barca-1'
 summary: Provides a full set of Edgex Foundry core microservices.
 description: |
  This snap provides a full set of Edgxe Foundry core microservices,
