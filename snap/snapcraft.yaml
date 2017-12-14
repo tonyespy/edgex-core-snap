@@ -23,7 +23,6 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 apps:
   consul:
     command: bin/start-consul.sh
-    daemon: simple
     # TODO: add stop-command
     plugs: [network, network-bind]
   core-config-seed:

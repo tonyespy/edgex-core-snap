@@ -1,6 +1,11 @@
 #!/bin/sh
 set -ex
 
+echo "Starting config-registry (consul)..."
+$SNAP/bin/start-consul.sh
+
+sleep 60
+
 MONGO_DATA_DIR=$SNAP_DATA/mongo/db
 
 echo "Starting config-seed..."
