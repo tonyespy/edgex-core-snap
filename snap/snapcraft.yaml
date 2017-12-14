@@ -39,6 +39,10 @@ apps:
     plugs: [network, network-bind]
 
 parts:
+  curl:
+    plugin: nil
+    stage-packages:
+      - curl
   # This part and its associated plugin were taken from the docker snap:
   #
   # https://github.com/docker/docker-snap
@@ -146,25 +150,6 @@ parts:
       - bin/start-consul.sh
       - bin/start-config-seed.sh
       - bin/start-edgex.sh
-  curl:
-    configflags:
-    - --enable-static
-    - --enable-shared
-    - --disable-manual
-    plugin: autotools
-    source: http://curl.haxx.se/download/curl-7.44.0.tar.bz2
-    source-type: tar
-    stage-packages:
-      - coreutils
-    prime:
-    - -lib/*.a
-    - -lib/pkgconfig
-    - -lib/*.la
-    - -usr/share
-    - -usr/sbin/chroot
-    - -usr/lib
-    - -include
-    - -share
   mongodb:
    source: https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1604-3.4.10.tgz
    plugin: dump
