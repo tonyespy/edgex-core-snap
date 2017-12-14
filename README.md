@@ -25,7 +25,7 @@ This should produce a binary snap package called edgex-core-snap_0.2.1+barca-1_a
  * the snap must be installed using --devmode; Work has started on confinement, however there are still some
    remaining issues to be resolved.
 
- * the snap is large (~678M), however it only includes a single JRE, shared by all services. No attempt has
+ * the snap is large (~630M), however it only includes a single JRE, shared by all services. No attempt has
    been made to optimize the size.
 
  * none of the services are actually defined as such in snapcraft.yaml, instead a shell-script app called
