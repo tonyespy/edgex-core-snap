@@ -32,8 +32,17 @@ apps:
     command: bin/start-edgex.sh
     plugs: [network, network-bind]
   mongo:
+    command: bin/mongo
+    plugs: [network]
+  mongod:
     command: mongo/launch-edgex-mongo.sh
     plugs: [network, network-bind]
+  mongostat:
+    command: bin/mongostat
+    plugs: [network]
+  mongodump:
+    command: bin/mongodump
+    plugs: [network]
   consul-cli:
     command: bin/consul
     plugs: [network, network-bind]
@@ -155,6 +164,17 @@ parts:
    plugin: dump
    stage-packages:
    - libssl1.0.0
+   stage:
+     - -bin/bsondump
+     - -bin/mongoexport
+     - -bin/mongofiles
+     - -bin/mongoimport
+     - -bin/mongooplog
+     - -bin/mongoperf
+     - -bin/mongoreplay
+     - -bin/mongorestore
+     - -bin/mongos
+     - -bin/mongotop
   mongo-config:
     source: git@github.com:edgexfoundry/docker-edgex-mongo.git
     plugin: dump
