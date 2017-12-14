@@ -152,6 +152,8 @@ parts:
            "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config/$i/"; done
     build-packages:
       - ca-certificates-java
+    prime:
+      - -etc/fonts/*
   config-common:
     plugin: dump
     source: .
@@ -183,6 +185,7 @@ parts:
     # is to not stage these files.  This needs a better solution long-term.
     stage:
       - -README.md
+      - -Dockerfile*
     install: |
       echo "Installing mongo-config files"
       echo "DIR=`pwd`"
@@ -209,6 +212,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/core-data"
       mv "$SNAPCRAFT_PART_INSTALL/jar/core-data-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/core-data/core-data.jar"
+    prime:
+      - -etc/fonts/*
   support-logging:
     source: git@github.com:edgexfoundry/support-logging.git
     source-branch: barcelona
@@ -221,6 +226,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/support-logging"
       mv "$SNAPCRAFT_PART_INSTALL/jar/support-logging-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/support-logging/support-logging.jar"
+    prime:
+      - -etc/fonts/*
   support-notifications:
     source: git@github.com:edgexfoundry/support-notifications.git
     source-branch: barcelona
@@ -233,6 +240,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/support-notifications"
       mv "$SNAPCRAFT_PART_INSTALL/jar/support-notifications-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/support-notifications/support-notifications.jar"
+    prime:
+      - -etc/fonts/*
   core-metadata:
     source: git@github.com:edgexfoundry/core-metadata.git
     source-branch: barcelona
@@ -245,6 +254,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/core-metadata"
       mv "$SNAPCRAFT_PART_INSTALL/jar/core-metadata-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/core-metadata/core-metadata.jar"
+    prime:
+      - -etc/fonts/*
   core-command:
     source: git@github.com:edgexfoundry/core-command.git
     source-branch: barcelona
@@ -257,6 +268,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/core-command"
       mv "$SNAPCRAFT_PART_INSTALL/jar/core-command-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/core-command/core-command.jar"
+    prime:
+      - -etc/fonts/*
   support-scheduler:
     source: git@github.com:edgexfoundry/support-scheduler.git
     source-branch: barcelona
@@ -269,6 +282,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler"
       mv "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler/support-scheduler.jar"
+    prime:
+      - -etc/fonts/*
   export-client:
     source: git@github.com:edgexfoundry/export-client.git
     source-branch: barcelona
@@ -281,6 +296,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/export-client"
       mv "$SNAPCRAFT_PART_INSTALL/jar/export-client-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/export-client/export-client.jar"
+    prime:
+      - -etc/fonts/*
   export-distro:
     source: git@github.com:edgexfoundry/export-distro.git
     source-branch: barcelona
@@ -293,6 +310,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/export-distro"
       mv "$SNAPCRAFT_PART_INSTALL/jar/export-distro-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/export-distro/export-distro.jar"
+    prime:
+      - -etc/fonts/*
   support-rulesengine:
     source: git@github.com:edgexfoundry/support-rulesengine.git
     source-branch: barcelona
@@ -305,6 +324,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine"
       mv "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine/support-rulesengine.jar"
+    prime:
+      - -etc/fonts/*
   device-virtual:
     source: git@github.com:edgexfoundry/device-virtual.git
     source-branch: barcelona
@@ -323,3 +344,5 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/bacnet_sample_profiles/"
       cp ./modbus_sample_profiles/*.yaml \
          "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/modbus_sample_profiles/"
+    prime:
+      - -etc/fonts/*
