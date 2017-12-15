@@ -1,6 +1,13 @@
 #!/bin/sh
 set -ex
 
+# Bootstrap service env vars
+if [ ! -e $SNAP_DATA/edgex-services-env ]; then
+    cp $SNAP/config/edgex-services-env $SNAP_DATA
+fi
+
+. $SNAP_DATA/edgex-services-env
+
 echo "Starting config-registry (consul)..."
 $SNAP/bin/start-consul.sh
 
@@ -20,66 +27,87 @@ fi
 
 $SNAP/mongo/launch-edgex-mongo.sh
 
-echo "Starting logging"
-$SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+if [ $SUPPORT_LOGGING = "y" ] ; then
+    sleep 60
+    echo "Starting logging"
+
+    $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                    -Dlogging.file=$SNAP_COMMON/edgex-logging.log \
                    $SNAP/jar/support-logging/support-logging.jar &
+fi
 
-sleep 65
+if [ $SUPPORT_NOTIFICATIONS = "y" ] ; then
+    sleep 65
+    echo "Starting notifications"
 
-echo "Starting notifications"
-$SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+    $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                    -Dlogging.file=$SNAP_COMMON/edgex-notifications.log \
                    $SNAP/jar/support-notifications/support-notifications.jar &
+fi
 
-sleep 33
 
-echo "Starting metadata"
-$SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+if [ $CORE_METADATA = "y" ] ; then
+    sleep 33
+    echo "Starting metadata"
+
+    $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                    -Dlogging.file=$SNAP_COMMON/edgex-core-metadata.log \
                    $SNAP/jar/core-metadata/core-metadata.jar &
+fi
 
-sleep 60
+if [ $CORE_DATA = "y" ] ; then
+    sleep 60
+    echo "Starting core-data"
 
-echo "Starting core-data"
-$SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+    $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                    -Dlogging.file=$SNAP_COMMON/edgex-core-data.log \
                    $SNAP/jar/core-data/core-data.jar &
+fi
 
-sleep 60
 
-echo "Starting command"
-$SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+if [ $CORE_COMMAND = "y" ] ; then
+    sleep 60
+    echo "Starting command"
+
+    $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                    -Dlogging.file=$SNAP_COMMON/edgex-core-command.log \
                    $SNAP/jar/core-command/core-command.jar &
+fi
 
-sleep 60
 
-echo "Starting scheduler"
-$SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+if [ $SUPPORT_SCHEDULER = "y" ] ; then
+    sleep 60
+    echo "Starting scheduler"
+
+    $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                    -Dlogging.file=$SNAP_COMMON/edgex-support-scheduler.log \
                    $SNAP/jar/support-scheduler/support-scheduler.jar &
+fi
 
-sleep 60
+if [ $EXPORT_CLIENT = "y" ] ; then
+    sleep 60
+    echo "Starting export-client"
 
-echo "Starting export-client"
-$SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+    $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                    -Dlogging.file=$SNAP_COMMON/edgex-export-client.log \
                    $SNAP/jar/export-client/export-client.jar &
+fi
 
-sleep 60
+if [ $EXPORT_DISTRO = "y" ] ; then
+    sleep 60
+    echo "Starting export-distro"
 
-echo "Starting export-distro"
-$SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+    $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                    -Dlogging.file=$SNAP_COMMON/edgex-export-distro.log \
                    $SNAP/jar/export-distro/export-distro.jar &
+fi
 
-sleep 60
+if [ $DEVICE_VIRTUAL = "y" ] ; then
+    sleep 60
+    echo "Starting device-virtual"
 
-echo "Starting device-virtual"
-cd $SNAP/jar/device-virtual
-echo "SNAP_COMMON=$SNAP_COMMON"
-
-$SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+    cd $SNAP/jar/device-virtual
+    $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                    -Dlogging.file=$SNAP_COMMON/edgex-device-virtual.log \
                    $SNAP/jar/device-virtual/device-virtual.jar &
+fi
