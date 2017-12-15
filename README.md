@@ -31,8 +31,9 @@ to ignore the fact that binary snap isn't signed.
 The hardware-observer and system-observe interfaces needs to be connected after installation
 using the following commands:
 
-`snap connect edgex-core-snap:hardware-observe core:hardware-observe`
-`snap connect edgex-core-snap:system-observe core:system-observe`
+`$ snap connect edgex-core-snap:hardware-observe core:hardware-observe`
+
+`$ snap connect edgex-core-snap:system-observe core:system-observe`
 
 ### Enabling/Disabling service startup
 
