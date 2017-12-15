@@ -32,6 +32,8 @@ apps:
   start-edgex:
     command: bin/start-edgex.sh
     plugs: [network, network-bind]
+  stop-edgex:
+    command: bin/stop-edgex.sh
   mongo:
     command: bin/mongo
     plugs: [network]
@@ -162,6 +164,7 @@ parts:
       - bin/start-consul.sh
       - bin/start-config-seed.sh
       - bin/start-edgex.sh
+      - bin/stop-edgex.sh
       - config/edgex-services-env
   mongodb:
    source: https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1604-3.4.10.tgz

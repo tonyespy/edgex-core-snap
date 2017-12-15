@@ -35,6 +35,16 @@ using the following commands:
 
 `$ snap connect edgex-core-snap:system-observe core:system-observe`
 
+## Starting/Stopping EdgeX
+
+To start all the EdgeX microservices, use the following command:
+
+`$ edgex-core-snap.start-edgex`
+
+To stop all the EdgeX microservices, use the following command:
+
+`$ edgex-core-snap.stop-edgex`
+
 ### Enabling/Disabling service startup
 
 It's possible to a effect which services are started by the start-edgex script by editing
@@ -49,13 +59,8 @@ least once to copy the default version into place.
  * the snap is large (~630M), however it only includes a single JRE, shared by all services. No attempt has
    been made to optimize the size.
 
- * none of the services are actually defined as such in snapcraft.yaml, instead a shell-script app called
-   start-edgex.sh is used to start all of the micro services.  This script is loosely based on the script
-   run-it.sh from the EdgeX developer-scripts project.
-
- * there currently isn't an app provided to stop the micro services, you'll need to bring everything
-   down manually before installing a new version.  Be careful to ensure that you aren't already
-   running instances of java, mongod, or consul.
+ * none of the services are actually defined as such in snapcraft.yaml, instead shell-scripts are used
+   to start and stop the EdgeX microservices.
 
  * the snap requires some file re-orgnization to ensure that the correct copyright/license files are
    copied into place.
