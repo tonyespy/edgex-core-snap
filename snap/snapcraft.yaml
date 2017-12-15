@@ -9,16 +9,17 @@ description: |
  This snap includes a shared Zulu JRE and Go runtime, as consul
  requires a later version of Go than that provided by Ubuntu 16.04 LTS.
 
-grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
-#grade: stable
-#confinement: strict
+grade: stable
+confinement: strict
 #
 # TODO: still a few bugs to work out for confinement;
 # seems that there are apparmor denials being generated
-# for open calls to /var/lib/snapd/void/. This directory
-# seems to include all of the individual log files for
-# each EdgeX micro service.
+# for open calls to the directory: /var/lib/snapd/void/.
+# Prior to the changes to the start-edgex script, each
+# service's log files were being written here, so not
+# sure why denials are still being generated.  This
+# be caused by the fact that the current working dir
+# may be defaulting to this dir...
 
 apps:
   consul:
@@ -36,7 +37,7 @@ apps:
     plugs: [network]
   mongod:
     command: mongo/launch-edgex-mongo.sh
-    plugs: [network, network-bind]
+    plugs: [hardware-observe, network, network-bind, system-observe]
   mongostat:
     command: bin/mongostat
     plugs: [network]

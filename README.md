@@ -20,7 +20,21 @@ This snap can be built on an Ubuntu 16.04 LTS system:
 
 This should produce a binary snap package called edgex-core-snap_0.2.1+barca-1_amd64.snap.
 
+## Installation
+
+As the snap currently has not been published to the store, it needs to be side-loaded, which
+requires *--dangerous* to be specified when running *snap install*, this option tells snapd
+to ignore the fact that binary snap isn't signed.
+
 ## Configuration
+
+The hardware-observer and system-observe interfaces needs to be connected after installation
+using the following commands:
+
+`snap connect edgex-core-snap:hardware-observe core:hardware-observe`
+`snap connect edgex-core-snap:system-observe core:system-observe`
+
+### Enabling/Disabling service startup
 
 It's possible to a effect which services are started by the start-edgex script by editing
 a file called `edgex-services-env` which can be found in the `/var/snap/edgex-core-snap/current`
@@ -30,9 +44,6 @@ a file called `edgex-services-env` which can be found in the `/var/snap/edgex-co
 least once to copy the default version into place.
 
 ## Limitations
-
- * the snap must be installed using --devmode; Work has started on confinement, however there are still some
-   remaining issues to be resolved.
 
  * the snap is large (~630M), however it only includes a single JRE, shared by all services. No attempt has
    been made to optimize the size.
