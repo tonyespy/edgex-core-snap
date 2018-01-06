@@ -51,6 +51,7 @@ if [ $CORE_METADATA = "y" ] ; then
     echo "Starting metadata"
 
     $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+                   -Dspring.cloud.consul.enabled=true \
                    -Dlogging.file=$SNAP_COMMON/edgex-core-metadata.log \
                    $SNAP/jar/core-metadata/core-metadata.jar &
 fi
@@ -60,6 +61,7 @@ if [ $CORE_DATA = "y" ] ; then
     echo "Starting core-data"
 
     $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+                   -Dspring.cloud.consul.enabled=true \
                    -Dlogging.file=$SNAP_COMMON/edgex-core-data.log \
                    $SNAP/jar/core-data/core-data.jar &
 fi
