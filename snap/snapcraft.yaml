@@ -106,7 +106,7 @@ parts:
       export GOROOT="$SNAPDIR/parts/go/install"
       export PATH="$GOROOT/bin:$PATH"
 
-      export XC_ARCH="amd64"
+      export XC_ARCH=`dpkg --print-architecture`
       export XC_OS="linux"
 
       go version
