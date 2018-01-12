@@ -96,7 +96,7 @@ parts:
 
   consul:
     plugin: shell
-    source: git@github.com:hashicorp/consul.git
+    source: https://github.com/hashicorp/consul.git
     # source: ./consul
     source-tag: v0.7.3
     prepare: git apply $SNAPCRAFT_STAGE/0001-Link-all-dependencies-in-vendor-folder-to-the-custom.patch
@@ -135,7 +135,7 @@ parts:
     prime:
       - -*
   config-seed:
-    source: git@github.com:edgexfoundry/core-config-seed.git
+    source: https://github.com/edgexfoundry/core-config-seed.git
     source-branch: barcelona
     plugin: maven
     install: |
@@ -183,7 +183,7 @@ parts:
      - -bin/mongos
      - -bin/mongotop
   mongo-config:
-    source: git@github.com:edgexfoundry/docker-edgex-mongo.git
+    source: https://github.com/edgexfoundry/docker-edgex-mongo.git
     plugin: dump
     # NOTE - both the mongo-config & go install README.md to root-dir of the snap
     # which breaks when 'stage' runs.  The only workaround so far is
@@ -206,7 +206,7 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/mongo/init_mongo.js"
       chmod 755 "$SNAPCRAFT_PART_INSTALL/mongo/launch-edgex-mongo.sh"
   core-data:
-    source: git@github.com:edgexfoundry/core-data.git
+    source: https://github.com/edgexfoundry/core-data.git
     source-branch: barcelona
     plugin: maven
     install: |
@@ -220,7 +220,7 @@ parts:
     prime:
       - -etc/fonts/*
   support-logging:
-    source: git@github.com:edgexfoundry/support-logging.git
+    source: https://github.com/edgexfoundry/support-logging.git
     source-branch: barcelona
     plugin: maven
     install: |
@@ -234,7 +234,7 @@ parts:
     prime:
       - -etc/fonts/*
   support-notifications:
-    source: git@github.com:edgexfoundry/support-notifications.git
+    source: https://github.com/edgexfoundry/support-notifications.git
     source-branch: barcelona
     plugin: maven
     install: |
@@ -248,7 +248,7 @@ parts:
     prime:
       - -etc/fonts/*
   core-metadata:
-    source: git@github.com:edgexfoundry/core-metadata.git
+    source: https://github.com/edgexfoundry/core-metadata.git
     source-branch: barcelona
     plugin: maven
     install: |
@@ -262,7 +262,7 @@ parts:
     prime:
       - -etc/fonts/*
   core-command:
-    source: git@github.com:edgexfoundry/core-command.git
+    source: https://github.com/edgexfoundry/core-command.git
     source-branch: barcelona
     plugin: maven
     install: |
@@ -276,7 +276,7 @@ parts:
     prime:
       - -etc/fonts/*
   support-scheduler:
-    source: git@github.com:edgexfoundry/support-scheduler.git
+    source: https://github.com/edgexfoundry/support-scheduler.git
     source-branch: barcelona
     plugin: maven
     install: |
@@ -290,7 +290,7 @@ parts:
     prime:
       - -etc/fonts/*
   export-client:
-    source: git@github.com:edgexfoundry/export-client.git
+    source: https://github.com/edgexfoundry/export-client.git
     source-branch: barcelona
     plugin: maven
     install: |
@@ -304,7 +304,7 @@ parts:
     prime:
       - -etc/fonts/*
   export-distro:
-    source: git@github.com:edgexfoundry/export-distro.git
+    source: https://github.com/edgexfoundry/export-distro.git
     source-branch: barcelona
     plugin: maven
     install: |
@@ -318,7 +318,7 @@ parts:
     prime:
       - -etc/fonts/*
   support-rulesengine:
-    source: git@github.com:edgexfoundry/support-rulesengine.git
+    source: https://github.com/edgexfoundry/support-rulesengine.git
     source-branch: barcelona
     plugin: maven
     install: |
@@ -332,7 +332,7 @@ parts:
     prime:
       - -etc/fonts/*
   device-virtual:
-    source: git@github.com:edgexfoundry/device-virtual.git
+    source: https://github.com/edgexfoundry/device-virtual.git
     source-branch: barcelona
     plugin: maven
     install: |
