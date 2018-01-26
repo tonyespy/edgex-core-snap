@@ -24,6 +24,9 @@ confinement: strict
 apps:
   consul:
     command: bin/start-consul.sh
+    daemon: simple
+    after:
+      - mongod
     # TODO: add stop-command
     plugs: [network, network-bind]
   core-config-seed:
@@ -39,6 +42,7 @@ apps:
     plugs: [network]
   mongod:
     command: mongo/launch-edgex-mongo.sh
+    daemon: simple
     plugs: [hardware-observe, network, network-bind, system-observe]
   mongostat:
     command: bin/mongostat
