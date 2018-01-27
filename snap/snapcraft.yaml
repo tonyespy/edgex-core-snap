@@ -31,6 +31,9 @@ apps:
     plugs: [network, network-bind]
   core-config-seed:
     command: bin/start-config-seed.sh
+    daemon: oneshot
+    after:
+      - consul
     plugs: [network, network-bind]
   start-edgex:
     command: bin/start-edgex.sh
