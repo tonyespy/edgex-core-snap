@@ -7,6 +7,9 @@
 #  - launch-consul-config.sh
 #  - docker-entrypoint.sh
 #
+# TODO: this script currently fails on a device with more
+# than one local IP address.  It also doesn't like the
+# existence of bridge devices (eg. lxdbr0, docker0, ...).
 set -ex
 
 CONSUL_ARGS="-server -client=0.0.0.0 -bootstrap -ui"
@@ -37,12 +40,10 @@ fi
 #    [ -x "$hook" ] && /bin/sh -x "$hook"
 #done
 
-# TODO: remove trailing '&' if/when services are actually
-# enabled in snap/snapcraft.yaml
 exec $SNAP/bin/consul agent \
      -data-dir="$CONSUL_DATA_DIR" \
      -config-dir="$CONSUL_CONFIG_DIR" \
-     $CONSUL_ARGS | tee $LOG_DIR/core-consul.log &
+     $CONSUL_ARGS | tee $LOG_DIR/core-consul.log
      
 
 
