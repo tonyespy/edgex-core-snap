@@ -7,7 +7,7 @@
 #  - launch-consul-config.sh
 #  - docker-entrypoint.sh
 #
-set -e
+set -ex
 
 CONSUL_ARGS="-server -client=0.0.0.0 -bootstrap -ui"
 
