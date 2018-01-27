@@ -1,13 +1,17 @@
 #!/bin/sh
 set -x
 
-count=10
+MAX_TRIES=10
 
-while [ "$count" -gt 0 ] ; do
-    CONSUL_RUNNING=`curl http://127.0.0.1:8500/v1/catalog/service/consul`
+while [ "$MAX_TRIES" -gt 0 ] ; do
+    CONSUL_RUNNING=`curl http://localhost:8500/v1/catalog/service/consul`
 
-    if [ $? -ne 0] || [ $CONSUL_RUNNING = "[]" ] || [ $CONSUL_RUNNING = "" ]; then
-	sleep 20
+    if [ $? -ne 0] ||
+       [ -z $CONSUL_RUNNING ] ||
+       [ "$CONSUL_RUNNING" = "[]" ] || [ "$CONSUL_RUNNING" = "" ]; then
+	echo "core-config-seed: consul not running; remaing tries: $MAX_TRIES\n"
+	sleep 5
+	MAX_TRIES=`expr $MAX_TRIES - 1`
     else
 	break
     fi
