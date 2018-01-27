@@ -16,4 +16,8 @@ else
     mkdir -p $MONGO_DATA_DIR
 fi
 
-$SNAP/mongo/launch-edgex-mongo.sh
+# does this need to be fully qualified?
+mongod --smallfiles &
+
+# Don't use due to inifinite loop...
+#$SNAP/mongo/launch-edgex-mongo.sh
