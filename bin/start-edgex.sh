@@ -8,9 +8,6 @@ fi
 
 . $SNAP_DATA/edgex-services-env
 
-echo "Starting config-seed..."
-$SNAP/bin/start-config-seed.sh
-
 if [ $SUPPORT_LOGGING = "y" ] ; then
     sleep 60
     echo "Starting logging"
