@@ -1,6 +1,15 @@
 #!/bin/sh
 set -ex
 
+MAX_TRIES=5
+MONGO_DATA_DIR=$SNAP_DATA/mongo/db
+
+# double check correct exit code for failure
+if [ -z $SNAP_DATA ] || [ $SNAP_DATA == "" ] ; then
+    echo "Fatal error: SNAP_DATA not set: $SNAP_DATA"
+    exit 1
+fi
+
 # Bootstrap service env vars
 if [ ! -e $SNAP_DATA/edgex-services-env ]; then
     cp $SNAP/config/edgex-services-env $SNAP_DATA
@@ -17,7 +26,13 @@ else
 fi
 
 # does this need to be fully qualified?
-mongod --smallfiles &
+exec $SNAP/bin/mongod --dbpath $SNAP_DATA/mongo/db --smallfiles
+
+while [ "$MAX_TRIES" -gt "0" ]; do
+  mongo $SNAP/mongo/init_mongo.js && break
+  sleep 5
+  MAX_TRIES=`expr $MAX_TRIES - 1`
+done
 
 # Don't use due to inifinite loop...
 #$SNAP/mongo/launch-edgex-mongo.sh
