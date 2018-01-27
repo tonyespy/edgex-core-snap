@@ -41,7 +41,7 @@ apps:
     command: bin/mongo
     plugs: [network]
   mongod:
-    command: mongo/launch-edgex-mongo.sh
+    command: bin/start-mongo.sh
     daemon: simple
     plugs: [hardware-observe, network, network-bind, system-observe]
   mongostat:
@@ -168,6 +168,7 @@ parts:
       - bin/start-consul.sh
       - bin/start-config-seed.sh
       - bin/start-edgex.sh
+      - bin/start-mongo.sh
       - bin/stop-edgex.sh
       - config/edgex-services-env
   mongodb:
