@@ -129,6 +129,7 @@ parts:
       - patch
     build-packages:
       - make
+      - zip
   patch:
     source: patches
     plugin: dump
