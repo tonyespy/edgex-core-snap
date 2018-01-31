@@ -312,6 +312,10 @@ parts:
     # a tag wasn't created.
     source-commit: d2bb39c1f6da463a9b6c8b8b127b0698fc2ef546
     plugin: maven
+    prepare: |
+      # Remove a broken unit test; for details see:
+      # https://github.com/edgexfoundry/export-distro/issues/40
+      rm "./src/test/java/org/edgexfoundry/messaging/MQTTSenderTest.java"
     install: |
       echo "Installing export-distro files"
 
