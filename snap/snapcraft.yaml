@@ -120,7 +120,7 @@ parts:
       make bin
       popd
 
-      consulBin='.gopath/src/github.com/hashicorp/consul/pkg/linux_amd64/consul'
+      consulBin=".gopath/src/github.com/hashicorp/consul/pkg/linux_$XC_ARCH/consul"
       "$consulBin" -v
       install -d "$SNAPCRAFT_PART_INSTALL/bin"
       install -T "$(readlink -f "$consulBin")" "$SNAPCRAFT_PART_INSTALL/bin/consul"
