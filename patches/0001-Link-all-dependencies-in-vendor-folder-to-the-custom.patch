@@ -5,25 +5,23 @@ Subject: [PATCH] Link all dependencies in vendor folder to the custom go
  building environment.
 
 ---
- GNUmakefile | 6 ++++++
- 1 file changed, 6 insertions(+)
+ GNUmakefile | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/GNUmakefile b/GNUmakefile
-index 2e9a11d..15b1d8d 100644
+index 1be8744..8a10534 100644
 --- a/GNUmakefile
 +++ b/GNUmakefile
-@@ -73,5 +73,11 @@ static-assets:
+@@ -118,5 +118,12 @@ static-assets:
  
  tools:
  	go get -u -v $(GOTOOLS)
 +	@for dep in $(shell cd vendor; find * -type d -maxdepth 2 -mindepth 2); do \
-+	  echo "Linking $$dep into $$GOPATH"; \
-+	  rm -rf $$GOPATH/src/$$dep; \
++	echo "Linking $$dep into $$GOPATH"; \
++	rm -rf $$GOPATH/src/$$dep; \
 +		mkdir -p $$GOPATH/src/$${dep%/*}; \
-+		ln -fs $(shell pwd)/vendor/$$dep $$GOPATH/src/$$dep; \
++	ln -fs $(shell pwd)/vendor/$$dep $$GOPATH/src/$$dep; \
 +	done
++
  
- .PHONY: all ci bin dev dist cov test cover format vet ui static-assets tools
--- 
-2.7.4
-
+ .PHONY: all ci bin dev dist cov test cover format vet ui static-assets tools vendorfmt
