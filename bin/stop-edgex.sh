@@ -98,7 +98,7 @@ if [ $CORE_DATA = "y" ] || [ $CORE_METADATA = "y" ] ; then
     fi
 fi
 
-pid=`ps -ef | grep consul | grep -v grep | awk '{print $2}'`
+pid=`ps -ef | grep "consul\ agent" | grep -v grep | awk '{print $2}'`
 if [ ! -z $pid ] && [ $pid != "" ] ; then
     $SNAP/bin/consul leave
 fi
