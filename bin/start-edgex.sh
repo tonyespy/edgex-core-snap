@@ -83,8 +83,12 @@ if [ $SUPPORT_SCHEDULER = "y" ] ; then
     sleep 60
     echo "Starting scheduler"
 
+    # workaround consul.host=edgex-core-consul bug:
+    # https://github.com/edgexfoundry/support-scheduler/issues/23
+
     $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                    -Dspring.cloud.consul.enabled=true \
+                   -Dspring.cloud.consul.host=localhost \
                    -Dlogging.file=$SNAP_COMMON/edgex-support-scheduler.log \
                    $SNAP/jar/support-scheduler/support-scheduler.jar &
 fi
