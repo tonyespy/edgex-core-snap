@@ -41,6 +41,7 @@ if [ $SUPPORT_NOTIFICATIONS = "y" ] ; then
     echo "Starting notifications"
 
     $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+                   -Dspring.cloud.consul.enabled=true \
                    -Dlogging.file=$SNAP_COMMON/edgex-notifications.log \
                    $SNAP/jar/support-notifications/support-notifications.jar &
 fi
@@ -72,6 +73,7 @@ if [ $CORE_COMMAND = "y" ] ; then
     echo "Starting command"
 
     $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+                   -Dspring.cloud.consul.enabled=true \
                    -Dlogging.file=$SNAP_COMMON/edgex-core-command.log \
                    $SNAP/jar/core-command/core-command.jar &
 fi
@@ -82,6 +84,7 @@ if [ $SUPPORT_SCHEDULER = "y" ] ; then
     echo "Starting scheduler"
 
     $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+                   -Dspring.cloud.consul.enabled=true \
                    -Dlogging.file=$SNAP_COMMON/edgex-support-scheduler.log \
                    $SNAP/jar/support-scheduler/support-scheduler.jar &
 fi
@@ -91,6 +94,7 @@ if [ $EXPORT_CLIENT = "y" ] ; then
     echo "Starting export-client"
 
     $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+                   -Dspring.cloud.consul.enabled=true \
                    -Dlogging.file=$SNAP_COMMON/edgex-export-client.log \
                    $SNAP/jar/export-client/export-client.jar &
 fi
@@ -100,6 +104,7 @@ if [ $EXPORT_DISTRO = "y" ] ; then
     echo "Starting export-distro"
 
     $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+                   -Dspring.cloud.consul.enabled=true \
                    -Dlogging.file=$SNAP_COMMON/edgex-export-distro.log \
                    $SNAP/jar/export-distro/export-distro.jar &
 fi
@@ -110,6 +115,7 @@ if [ $DEVICE_VIRTUAL = "y" ] ; then
 
     cd $SNAP/jar/device-virtual
     $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+                   -Dspring.cloud.consul.enabled=true \
                    -Dlogging.file=$SNAP_COMMON/edgex-device-virtual.log \
                    $SNAP/jar/device-virtual/device-virtual.jar &
 fi
