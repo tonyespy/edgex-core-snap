@@ -348,6 +348,7 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/export-distro"
       mv "$SNAPCRAFT_PART_INSTALL/jar/export-distro-0.5.0-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/export-distro/export-distro.jar"
+      mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/export-distro/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
   support-rulesengine:
