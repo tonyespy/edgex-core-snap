@@ -160,6 +160,7 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/config-seed"
       mv "$SNAPCRAFT_PART_INSTALL/jar/core-config-seed-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/config-seed/core-config-seed.jar"
+      mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/config-seed/LICENSE-2.0.txt"
 
       install -d "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config"
       for i in `ls ./config`; do
@@ -171,6 +172,7 @@ parts:
       - ca-certificates-java
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
   config-common:
     plugin: dump
     source: .
