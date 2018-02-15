@@ -265,6 +265,7 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/support-notifications"
       mv "$SNAPCRAFT_PART_INSTALL/jar/support-notifications-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/support-notifications/support-notifications.jar"
+      mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/support-notifications/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
   core-metadata:
