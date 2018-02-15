@@ -135,6 +135,8 @@ parts:
       "$consulBin" -v
       install -d "$SNAPCRAFT_PART_INSTALL/bin"
       install -T "$(readlink -f "$consulBin")" "$SNAPCRAFT_PART_INSTALL/bin/consul"
+      install -d "$SNAPCRAFT_PART_INSTALL/consul"
+      install -T ".gopath/src/github.com/hashicorp/consul/LICENSE" "$SNAPCRAFT_PART_INSTALL/consul/LICENSE"
     after:
       - go
       - patch
