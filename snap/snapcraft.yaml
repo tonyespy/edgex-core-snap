@@ -173,6 +173,7 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
   config-common:
     plugin: dump
     source: .
@@ -241,6 +242,7 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
   support-logging:
     source: https://github.com/edgexfoundry/support-logging.git
     source-branch: barcelona
@@ -257,6 +259,7 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
   support-notifications:
     source: https://github.com/edgexfoundry/support-notifications.git
     source-branch: barcelona
@@ -273,6 +276,7 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
   core-metadata:
     source: https://github.com/edgexfoundry/core-metadata.git
     source-branch: barcelona
@@ -289,6 +293,7 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
   core-command:
     source: https://github.com/edgexfoundry/core-command.git
     source-branch: barcelona
@@ -305,6 +310,7 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
   support-scheduler:
     source: https://github.com/edgexfoundry/support-scheduler.git
     source-branch: barcelona
@@ -321,6 +327,7 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
   export-client:
     source: https://github.com/edgexfoundry/export-client.git
     source-branch: barcelona
@@ -337,6 +344,7 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
   export-distro:
     source: https://github.com/edgexfoundry/export-distro.git
 #   source-branch: barcelona
@@ -361,6 +369,7 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
   support-rulesengine:
     source: https://github.com/edgexfoundry/support-rulesengine.git
     source-branch: barcelona
@@ -377,6 +386,7 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
   device-virtual:
     source: https://github.com/edgexfoundry/device-virtual.git
     source-branch: barcelona
@@ -399,3 +409,4 @@ parts:
     prime:
       - -etc/fonts/*
       - -LICENSE-2.0.txt
+      - -LICENSE-2.0.TXT
