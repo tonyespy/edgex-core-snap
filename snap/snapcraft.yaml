@@ -238,6 +238,7 @@ parts:
       mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/core-data/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
   support-logging:
     source: https://github.com/edgexfoundry/support-logging.git
     source-branch: barcelona
@@ -253,6 +254,7 @@ parts:
       mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/support-logging/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
   support-notifications:
     source: https://github.com/edgexfoundry/support-notifications.git
     source-branch: barcelona
@@ -268,6 +270,7 @@ parts:
       mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/support-notifications/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
   core-metadata:
     source: https://github.com/edgexfoundry/core-metadata.git
     source-branch: barcelona
@@ -283,6 +286,7 @@ parts:
       mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/core-metadata/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
   core-command:
     source: https://github.com/edgexfoundry/core-command.git
     source-branch: barcelona
@@ -298,6 +302,7 @@ parts:
       mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/core-command/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
   support-scheduler:
     source: https://github.com/edgexfoundry/support-scheduler.git
     source-branch: barcelona
@@ -313,6 +318,7 @@ parts:
       mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
   export-client:
     source: https://github.com/edgexfoundry/export-client.git
     source-branch: barcelona
@@ -328,6 +334,7 @@ parts:
       mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/export-client/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
   export-distro:
     source: https://github.com/edgexfoundry/export-distro.git
 #   source-branch: barcelona
@@ -351,6 +358,7 @@ parts:
       mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/export-distro/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
   support-rulesengine:
     source: https://github.com/edgexfoundry/support-rulesengine.git
     source-branch: barcelona
@@ -366,6 +374,7 @@ parts:
       mv ./LICENSE-2.0.txt "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
   device-virtual:
     source: https://github.com/edgexfoundry/device-virtual.git
     source-branch: barcelona
@@ -387,3 +396,4 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/modbus_sample_profiles/"
     prime:
       - -etc/fonts/*
+      - -LICENSE-2.0.txt
