@@ -93,7 +93,18 @@ parts:
     # example overide:
     # zulu:
     #     amd64: https://www.azul.com/downloads/zulu/zdk-8-ga-linux_x64.tar.gz
-
+    #
+    # move license files into snap's /jre sub-dir
+    organize:
+      CLASSPATH_EXCEPTION_NOTE: jre/CLASSPATH_EXCEPTION_NOTE
+      DISCLAIMER: jre/DISCLAIMER
+      readme.txt: jre/readme.txt
+      release: jre/release
+      Welcome.html: jre/Welcome.html
+    prime:
+      - -ASSEMBLY_EXCEPTION
+      - -LICENSE
+      - -THIRD_PARTY_README
   consul:
     plugin: shell
     source: https://github.com/hashicorp/consul.git
