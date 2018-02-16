@@ -132,6 +132,24 @@ parts:
       "$consulBin" -v
       install -d "$SNAPCRAFT_PART_INSTALL/bin"
       install -T "$(readlink -f "$consulBin")" "$SNAPCRAFT_PART_INSTALL/bin/consul"
+      # handle consul LICENSE
+      # TODO: do PATENT files need copying?
+      install -DT ".gopath/src/github.com/hashicorp/consul/LICENSE" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/hashicorp/consul/LICENSE"
+
+      # handle vendor LICENSE files
+      pushd vendor
+      for i in `find . -type f -name "LICENSE"`; do
+        install -DT "$i" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/$i"; done
+      popd
+
+      # TODO: some LICENSE files fall under .gopath too
+      pushd .gopath/src
+      for i in `find . -type f -name "LICENSE"`; do
+        install -DT "$i" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/$i"; done
+      popd
     after:
       - go
       - patch
