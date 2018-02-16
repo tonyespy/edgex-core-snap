@@ -256,6 +256,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/core-data"
       mv "$SNAPCRAFT_PART_INSTALL/jar/core-data-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/core-data/core-data.jar"
+      install -DT "./LICENSE-2.0.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/doc/core-data/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
   support-logging:
@@ -298,6 +300,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/core-metadata"
       mv "$SNAPCRAFT_PART_INSTALL/jar/core-metadata-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/core-metadata/core-metadata.jar"
+      install -DT "./LICENSE-2.0.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/doc/core-metadata/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
   core-command:
@@ -312,6 +316,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/core-command"
       mv "$SNAPCRAFT_PART_INSTALL/jar/core-command-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/core-command/core-command.jar"
+      install -DT "./LICENSE-2.0.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/doc/core-command/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
   support-scheduler:
