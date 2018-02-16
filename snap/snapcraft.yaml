@@ -173,6 +173,8 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/config-seed"
       mv "$SNAPCRAFT_PART_INSTALL/jar/core-config-seed-0.2.1-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/config-seed/core-config-seed.jar"
+      install -DT "./LICENSE-2.0.txt" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/core-config-seed/LICENSE-2.0.txt"
 
       install -d "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config"
       for i in `ls ./config`; do
