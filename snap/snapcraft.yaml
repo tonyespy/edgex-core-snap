@@ -176,12 +176,9 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
                  "$SNAPCRAFT_PART_INSTALL/usr/share/doc/core-config-seed/LICENSE-2.0.txt"
 
-      install -d "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config"
       for i in `ls ./config`; do
-        install -d "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config/$i"; done
-      for i in `ls ./config`; do
-        cp "./config/$i/application.properties" \
-           "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config/$i/"; done
+        install -DT "./config/$i/application.properties" \
+           "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config/$i/application.properties"; done
     build-packages:
       - ca-certificates-java
     prime:
