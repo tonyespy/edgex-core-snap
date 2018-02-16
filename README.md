@@ -22,9 +22,17 @@ This should produce a binary snap package called edgex-core-snap_0.2.1+barca-1_a
 
 ## Installation
 
-As the snap currently has not been published to the store, it needs to be side-loaded, which
-requires *--dangerous* to be specified when running *snap install*, this option tells snapd
-to ignore the fact that binary snap isn't signed.
+An amd64 version of the snap is currently published to the edge channel of the Global snap
+store. It can be installed on an Ubuntu system running snapd (desktop or server) using the
+following command:
+
+sudo snap install --edgex edgexfoundry-core
+
+**Note** - it should be possible to install the snap on other distros that have snapd running.
+
+**WARNING** - as this snap is still considered experimental, please don't install it
+on a machine that you can't live without.  Use a VM or cloud server instance, or a spare
+desktop/server.
 
 ## Configuration
 
@@ -61,9 +69,6 @@ least once to copy the default version into place.
 
  * none of the services are actually defined as such in snapcraft.yaml, instead shell-scripts are used
    to start and stop the EdgeX microservices.
-
- * the snap requires some file re-orgnization to ensure that the correct copyright/license files are
-   copied into place.
 
    
 
