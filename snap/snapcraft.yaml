@@ -198,6 +198,11 @@ parts:
   mongodb:
    source: https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1604-3.4.10.tgz
    plugin: dump
+   organize:
+     GNU-AGPL-3.0: usr/share/doc/mongodb/GNU-AGPL-3.0
+     MPL-2: usr/share/doc/mongodb/MPL-2
+     README: usr/share/doc/mongodb/README
+     THIRD-PARTY-NOTICES: usr/share/doc/mongodb/THIRD-PARTY-NOTICES
    stage-packages:
    - libssl1.0.0
    stage:
