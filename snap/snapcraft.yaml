@@ -239,6 +239,11 @@ parts:
       mv "$SNAPCRAFT_PART_INSTALL/init_mongo.js" \
          "$SNAPCRAFT_PART_INSTALL/mongo/init_mongo.js"
       chmod 755 "$SNAPCRAFT_PART_INSTALL/mongo/launch-edgex-mongo.sh"
+      install -DT "./LICENSE-2.0.TXT" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/doc/mongo-config/LICENSE-2.0.TXT"
+    prime:
+      - -launch-edgex-mongo.sh
+      - -LICENSE-2.0.TXT
   core-data:
     source: https://github.com/edgexfoundry/core-data.git
     source-branch: barcelona
