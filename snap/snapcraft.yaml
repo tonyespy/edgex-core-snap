@@ -93,7 +93,15 @@ parts:
     # example overide:
     # zulu:
     #     amd64: https://www.azul.com/downloads/zulu/zdk-8-ga-linux_x64.tar.gz
-
+    organize:
+      ASSEMBLY_EXCEPTION: usr/share/doc/zulu-jre/ASSEMBLY_EXCEPTION
+      DISCLAIMER: usr/share/doc/zulu-jre/DISCLAIMER
+      CLASSPATH_EXCEPTION_NOTE: usr/share/doc/zulu-jre/CLASSPATH_EXCEPTION_NOTE
+      LICENSE: usr/share/doc/zulu-jre/LICENSE
+      THIRD_PARTY_README: usr/share/doc/zulu-jre/THIRD_PARTY_README
+      readme.txt: usr/share/doc/zulu-jre/readme.txt
+      release: usr/share/doc/zulu-jre/release
+      Welcome.html: usr/share/doc/zulu-jre/Welcome.html
   consul:
     plugin: shell
     source: https://github.com/hashicorp/consul.git
