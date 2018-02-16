@@ -414,5 +414,7 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/bacnet_sample_profiles/"
       cp ./modbus_sample_profiles/*.yaml \
          "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/modbus_sample_profiles/"
+      install -DT "./LICENSE-2.0.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/doc/device-virtual/LICENSE-2.0.txt"
     prime:
       - -etc/fonts/*
