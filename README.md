@@ -18,7 +18,7 @@ This snap can be built on an Ubuntu 16.04 LTS system:
  * cd edgex-core-snap
  * snapcraft
 
-This should produce a binary snap package called edgex-core-snap_0.2.1+barca-1_amd64.snap.
+This should produce a binary snap package called edgex-core-snap_0.2.1+barca-3_amd64.snap.
 
 ## Installation
 
@@ -26,7 +26,7 @@ An amd64 version of the snap is currently published to the edge channel of the G
 store. It can be installed on an Ubuntu system running snapd (desktop or server) using the
 following command:
 
-sudo snap install --edgex edgexfoundry-core
+`sudo snap install --edgex edgexfoundry-core`
 
 **Note 1** - it should be possible to install the snap on other distros that have snapd running.
 
