@@ -28,7 +28,11 @@ following command:
 
 sudo snap install --edgex edgexfoundry-core
 
-**Note** - it should be possible to install the snap on other distros that have snapd running.
+**Note 1** - it should be possible to install the snap on other distros that have snapd running.
+
+**Note 2** - the start script will fail on a sytem which has more than one local IP address,
+or active bridge network devices as the current consul start command doesn't specify a specific
+IP address for the agent.
 
 **WARNING** - as this snap is still considered experimental, please don't install it
 on a machine that you can't live without.  Use a VM or cloud server instance, or a spare
