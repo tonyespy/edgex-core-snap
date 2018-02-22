@@ -1,6 +1,17 @@
 #!/bin/sh
 set -x
 
+if [ `arch` = "aarch64" ] ; then
+    ARCH="arm64"
+elif [ `arch` = "x86_64" ] ; then
+    ARCH="amd64"
+else
+    echo "Unsupported architecture: `arch`"
+    exit 1
+fi
+
+JAVA="$SNAP/usr/lib/jvm/java-8-openjdk-$ARCH/jre/bin/java"
+
 MAX_TRIES=10
 
 while [ "$MAX_TRIES" -gt 0 ] ; do
@@ -23,8 +34,10 @@ done
 if [ $CONSUL_RUNNING != "[]" ] ; then
     cd $SNAP/jar/config-seed/
 
-    $SNAP/jre/bin/java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
-    $SNAP/jar/config-seed/core-config-seed.jar
+    $JAVA -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
+        $SNAP/jar/config-seed/core-config-seed.jar
+
+
 fi
 
     
