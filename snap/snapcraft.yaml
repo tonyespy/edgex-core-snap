@@ -6,7 +6,7 @@ description: |
  This snap is currently based on the 'Barcalona' release of EdgeX,
  where most of core microservices are written in Java.  The notable
  exception is consul, which is the core configuration microservice.
- This snap includes a shared Zulu JRE and Go runtime, as consul
+ This snap includes a shared OpenJDK JRE and Go runtime, as consul
  requires a later version of Go than that provided by Ubuntu 16.04 LTS.
 
 grade: stable
@@ -81,27 +81,6 @@ parts:
       - build-essential
       - netbase
       - python3-pyelftools
-
-  # This part and its associated plugin (x-zulu-jre.py) were taken from
-  # the openhab snap:
-  #
-  # https://github.com/kubiko/openhab-snap
-  jre:
-    plugin: zulu-jre
-    # zulu supported architectures(armhf, arm64,  amd64) are already handled by plugin itself
-    # define here overide for pluging's defaults, or to add additional architectures
-    # example overide:
-    # zulu:
-    #     amd64: https://www.azul.com/downloads/zulu/zdk-8-ga-linux_x64.tar.gz
-    organize:
-      ASSEMBLY_EXCEPTION: usr/share/doc/zulu-jre/ASSEMBLY_EXCEPTION
-      DISCLAIMER: usr/share/doc/zulu-jre/DISCLAIMER
-      CLASSPATH_EXCEPTION_NOTE: usr/share/doc/zulu-jre/CLASSPATH_EXCEPTION_NOTE
-      LICENSE: usr/share/doc/zulu-jre/LICENSE
-      THIRD_PARTY_README: usr/share/doc/zulu-jre/THIRD_PARTY_README
-      readme.txt: usr/share/doc/zulu-jre/readme.txt
-      release: usr/share/doc/zulu-jre/release
-      Welcome.html: usr/share/doc/zulu-jre/Welcome.html
   consul:
     plugin: shell
     source: https://github.com/hashicorp/consul.git
