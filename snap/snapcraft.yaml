@@ -192,26 +192,41 @@ parts:
       - bin/stop-edgex.sh
       - config/edgex-services-env
   mongodb:
-   source: https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1604-3.4.10.tgz
-   plugin: dump
-   organize:
-     GNU-AGPL-3.0: usr/share/doc/mongodb/GNU-AGPL-3.0
-     MPL-2: usr/share/doc/mongodb/MPL-2
-     README: usr/share/doc/mongodb/README
-     THIRD-PARTY-NOTICES: usr/share/doc/mongodb/THIRD-PARTY-NOTICES
-   stage-packages:
-   - libssl1.0.0
-   stage:
-     - -bin/bsondump
-     - -bin/mongoexport
-     - -bin/mongofiles
-     - -bin/mongoimport
-     - -bin/mongooplog
-     - -bin/mongoperf
-     - -bin/mongoreplay
-     - -bin/mongorestore
-     - -bin/mongos
-     - -bin/mongotop
+    plugin: shell
+    source: .
+    shell: bash
+    shell-flags: ['-eux', '-o', 'pipefail']
+    shell-command: |
+      export ARCH=`arch`
+
+      if [ $ARCH = "x86_64" ] ; then
+        export PACKAGE="mongodb-linux-x86_64-ubuntu1604-3.4.10.tgz"
+      elif [ $ARCH = "aarch64" ] ; then
+        export PACKAGE="mongodb-linux-arm64-ubuntu1604-3.4.10.tgz"
+      fi
+
+      pushd $SNAPCRAFT_PART_INSTALL
+      wget "https://fastdl.mongodb.org/linux/$PACKAGE"
+      tar xvf "./$PACKAGE" --strip-components=1
+      popd
+    organize:
+      GNU-AGPL-3.0: usr/share/doc/mongodb/GNU-AGPL-3.0
+      MPL-2: usr/share/doc/mongodb/MPL-2
+      README: usr/share/doc/mongodb/README
+      THIRD-PARTY-NOTICES: usr/share/doc/mongodb/THIRD-PARTY-NOTICES
+    stage-packages:
+    - libssl1.0.0
+    stage:
+      - -bin/bsondump
+      - -bin/mongoexport
+      - -bin/mongofiles
+      - -bin/mongoimport
+      - -bin/mongooplog
+      - -bin/mongoperf
+      - -bin/mongoreplay
+      - -bin/mongorestore
+      - -bin/mongos
+      - -bin/mongotop
   mongo-config:
     source: https://github.com/edgexfoundry/docker-edgex-mongo.git
     plugin: dump
