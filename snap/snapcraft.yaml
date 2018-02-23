@@ -55,37 +55,14 @@ parts:
     plugin: nil
     stage-packages:
       - curl
-  # This part and its associated plugin were taken from the docker snap:
-  #
-  # https://github.com/docker/docker-snap
-  #
-  # TODO - this approach is less than ideal with respect to security, as
-  # it CVEs are not automatically handled. At some point, this part should
-  # be re-worked to pull the go binary from the bionic Debian package.
-  #
   go:
-    plugin: gobuild
-    source: https://storage.googleapis.com/golang/go1.9.2.src.tar.gz
-    # source: ./go1.9.2.src.tar.gz
-    source-type: tar
-    # NOTE - both the jre & go install LICENSE to root-dir of the snap
-    # which breaks when 'stage' runs.  The only workaround so far is
-    # is to not stage these files.  This needs a better solution long-term.
-    stage:
-      - -LICENSE
-    prime:
-      - -*
-    build-packages:
-      - golang-go
-      - rsync
-      - build-essential
-      - netbase
-      - python3-pyelftools
+    source-tag: go1.9.2
   consul:
     plugin: shell
     source: https://github.com/hashicorp/consul.git
     # source: ./consul
     source-tag: v0.7.3
+    after: [go]
     prepare: git apply $SNAPCRAFT_STAGE/0001-Link-all-dependencies-in-vendor-folder-to-the-custom.patch
     shell: bash
     shell-flags: ['-eux', '-o', 'pipefail']
