@@ -141,14 +141,23 @@ parts:
            "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config/$i/application.properties"; done
     build-packages:
       - ca-certificates-java
-    filesets:
-      docs:
-        - usr/share/doc/*
-    stage:
-      - $docs
+    # TODO: a custom plugin could simplify the duplication
+    # of prime rules across EdgeX service parts...
     prime:
-      - $docs
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
   config-common:
     plugin: dump
     source: .
@@ -243,7 +252,20 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-data/LICENSE-2.0.txt"
     prime:
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
   support-logging:
     source: https://github.com/edgexfoundry/support-logging.git
     source-branch: barcelona
@@ -264,7 +286,20 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-logging/LICENSE-2.0.txt"
     prime:
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
   support-notifications:
     source: https://github.com/edgexfoundry/support-notifications.git
     source-branch: barcelona
@@ -285,7 +320,20 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-notifications/LICENSE-2.0.txt"
     prime:
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
   core-metadata:
     source: https://github.com/edgexfoundry/core-metadata.git
     source-branch: barcelona
@@ -306,7 +354,20 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-metadata/LICENSE-2.0.txt"
     prime:
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
   core-command:
     source: https://github.com/edgexfoundry/core-command.git
     source-branch: barcelona
@@ -327,7 +388,20 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-command/LICENSE-2.0.txt"
     prime:
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
   support-scheduler:
     source: https://github.com/edgexfoundry/support-scheduler.git
     source-branch: barcelona
@@ -348,7 +422,20 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-scheduler/LICENSE-2.0.txt"
     prime:
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
   export-client:
     source: https://github.com/edgexfoundry/export-client.git
     source-branch: barcelona
@@ -369,7 +456,20 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/export-client/LICENSE-2.0.txt"
     prime:
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
   export-distro:
     source: https://github.com/edgexfoundry/export-distro.git
 #   source-branch: barcelona
@@ -398,7 +498,20 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/export-distro/LICENSE-2.0.txt"
     prime:
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
   support-rulesengine:
     source: https://github.com/edgexfoundry/support-rulesengine.git
     source-branch: barcelona
@@ -419,7 +532,20 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-rulesengine/LICENSE-2.0.txt"
     prime:
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
   device-virtual:
     source: https://github.com/edgexfoundry/device-virtual.git
     source-branch: barcelona
@@ -446,4 +572,17 @@ parts:
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/device-virtual/LICENSE-2.0.txt"
     prime:
-      - -etc/fonts/*
+      - -etc/fonts
+      - -etc/fonts/X11
+      - -usr/lib/jvm/*/man
+      - -usr/lib/jvm/*/jre/man
+      - -usr/lib/jvm/*/jre/lib/images
+      - -usr/lib/jvm/*/include
+      - -usr/lib/jvm/*/bin
+      - -usr/lib/jvm/*/lib
+      - -usr/lib/jvm/*/docs
+      - -usr/lib/jvm/*/src.zip
+      - -usr/share/X11
+      - -usr/share/man
+      - -usr/share/fonts
+      - -usr/share/alsa
