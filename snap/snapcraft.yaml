@@ -141,11 +141,25 @@ parts:
            "$SNAPCRAFT_PART_INSTALL/jar/config-seed/config/$i/application.properties"; done
     build-packages:
       - ca-certificates-java
-    # TODO: a custom plugin could simplify the duplication
-    # of prime rules across EdgeX service parts...
+
+    # Since snapcraft jdk plugin blanket blacklists usr/share/doc from stage,
+    # move JRE changelog & copyright to usr/share/java/doc
+    organize:
+      usr/share/doc/openjdk-8-jre-headless/changelog.Debian.gz: usr/share/java/doc/openjdk-8-jre-headless/changelog.Debian.gz
+      usr/share/doc/openjdk-8-jre-headless/copyright: usr/share/java/doc/openjdk-8-jre-headless/copyright
+
+    # TODO (applies to all edgex parts):
+    #   * a custom plugin could simplify the duplication of prime rules across
+    #     EdgeX service parts
+    #   * remove remaining license files from:
+    #     usr/lib/jvm/java-8-openjdk-`arch`/jre/
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
@@ -254,6 +268,10 @@ parts:
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
@@ -288,6 +306,10 @@ parts:
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
@@ -322,6 +344,10 @@ parts:
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
@@ -356,6 +382,10 @@ parts:
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
@@ -390,6 +420,10 @@ parts:
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
@@ -424,6 +458,10 @@ parts:
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
@@ -458,6 +496,10 @@ parts:
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
@@ -500,6 +542,10 @@ parts:
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
@@ -534,6 +580,10 @@ parts:
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
@@ -574,6 +624,10 @@ parts:
     prime:
       - -etc/fonts
       - -etc/fonts/X11
+      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/THIRD_PARTY_README
+      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
+      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
       - -usr/lib/jvm/*/man
       - -usr/lib/jvm/*/jre/man
       - -usr/lib/jvm/*/jre/lib/images
