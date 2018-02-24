@@ -194,6 +194,7 @@ parts:
       - -bin/mongorestore
       - -bin/mongos
       - -bin/mongotop
+      - -mongodb-linux-*-ubuntu1604-3.4.10.tgz
   mongo-config:
     source: https://github.com/edgexfoundry/docker-edgex-mongo.git
     plugin: dump
