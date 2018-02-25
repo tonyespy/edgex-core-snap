@@ -22,13 +22,13 @@ This should produce a binary snap package called edgex-core-snap_0.2.1+barca-3_a
 
 ## Installation
 
-An amd64 version of the snap is currently published to the edge channel of the Global snap
-store. It can be installed on an Ubuntu system running snapd (desktop or server) using the
-following command:
+Both amd64 and arm64 versions of this snap are currently published to the edge channel of
+the snap store. They can be installed on any system running snapd (desktop or server)
+using the following command:
 
 `sudo snap install --edgex edgexfoundry-core`
 
-**Note 1** - it should be possible to install the snap on other distros that have snapd running.
+**Note 1** - this snap has only been tested on Ubuntu 16.04 LTS desktop and Ubuntu Core 16.
 
 **Note 2** - the start script will fail on a sytem which has more than one local IP address,
 or active bridge network devices as the current consul start command doesn't specify a specific
@@ -68,13 +68,7 @@ least once to copy the default version into place.
 
 ## Limitations
 
- * the snap is large (~630M), however it only includes a single JRE, shared by all services. No attempt has
-   been made to optimize the size.
+ * the snap is large (~590M), however it only includes a single JRE, shared by all services.
 
  * none of the services are actually defined as such in snapcraft.yaml, instead shell-scripts are used
    to start and stop the EdgeX microservices.
-
-   
-
-
-
