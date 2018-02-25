@@ -1,13 +1,14 @@
 name: edgexfoundry-core
-version: '0.2.1+barca-3'
+version: '0.2.1+barca-4'
 summary: Provides a full set of Edgex Foundry core microservices.
 description: |
- This snap provides a full set of Edgxe Foundry core microservices,
- This snap is currently based on the 'Barcalona' release of EdgeX,
- where most of core microservices are written in Java.  The notable
- exception is consul, which is the core configuration microservice.
- This snap includes a shared OpenJDK JRE and Go runtime, as consul
- requires a later version of Go than that provided by Ubuntu 16.04 LTS.
+ This snap provides a full set of EdgeX Foundry core micro services.
+ It's based on the 'Barcalona' release of EdgeX, in which most of
+ the micro services are written in Java.  The notable exceptions
+ are Consul and Mongodb. This snap includes a shared OpenJDK JRE
+ for use by all of the services. The packaging for this snap can
+ be found at:
+ https://github.com/tonyespy/edgex-core-snap
 
 grade: stable
 confinement: strict
