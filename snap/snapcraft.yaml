@@ -134,6 +134,8 @@ parts:
       # copy config-seed license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-config-seed/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
                  "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-config-seed/LICENSE-2.0.txt"
 
@@ -261,9 +263,11 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/core-data/core-data.jar"
 
       # FIXME:
-      # copy config-seed license into /usr/share/java/doc, because the
+      # copy service license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-data/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-data/LICENSE-2.0.txt"
     prime:
@@ -299,9 +303,11 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/support-logging/support-logging.jar"
 
       # FIXME:
-      # copy config-seed license into /usr/share/java/doc, because the
+      # copy service license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-logging/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-logging/LICENSE-2.0.txt"
     prime:
@@ -337,9 +343,11 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/support-notifications/support-notifications.jar"
 
       # FIXME:
-      # copy config-seed license into /usr/share/java/doc, because the
+      # copy service license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-notifications/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-notifications/LICENSE-2.0.txt"
     prime:
@@ -375,9 +383,11 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/core-metadata/core-metadata.jar"
 
       # FIXME:
-      # copy config-seed license into /usr/share/java/doc, because the
+      # copy service license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-metadata/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-metadata/LICENSE-2.0.txt"
     prime:
@@ -413,9 +423,11 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/core-command/core-command.jar"
 
       # FIXME:
-      # copy config-seed license into /usr/share/java/doc, because the
+      # copy service license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-command/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-command/LICENSE-2.0.txt"
     prime:
@@ -451,9 +463,11 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler/support-scheduler.jar"
 
       # FIXME:
-      # copy config-seed license into /usr/share/java/doc, because the
+      # copy service license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-scheduler/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-scheduler/LICENSE-2.0.txt"
     prime:
@@ -489,9 +503,11 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/export-client/export-client.jar"
 
       # FIXME:
-      # copy config-seed license into /usr/share/java/doc, because the
+      # copy service license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/export-client/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/export-client/LICENSE-2.0.txt"
     prime:
@@ -535,9 +551,11 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/export-distro/export-distro.jar"
 
       # FIXME:
-      # copy config-seed license into /usr/share/java/doc, because the
+      # copy service license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/export-distro/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/export-distro/LICENSE-2.0.txt"
     prime:
@@ -573,9 +591,11 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine/support-rulesengine.jar"
 
       # FIXME:
-      # copy config-seed license into /usr/share/java/doc, because the
+      # copy service license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-rulesengine/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-rulesengine/LICENSE-2.0.txt"
     prime:
@@ -617,9 +637,11 @@ parts:
          "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/modbus_sample_profiles/"
 
       # FIXME:
-      # copy config-seed license into /usr/share/java/doc, because the
+      # copy service license into /usr/share/java/doc, because the
       # jdk plugin has a bug which prevents any files from /usr/share/doc
       # to be staged or primed.
+      install -DT "./Attribution.txt" \
+         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/device-virtual/Attribution.txt"
       install -DT "./LICENSE-2.0.txt" \
          "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/device-virtual/LICENSE-2.0.txt"
     prime:
