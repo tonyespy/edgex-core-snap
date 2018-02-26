@@ -1,5 +1,5 @@
 name: edgexfoundry-core
-version: '0.2.1+barca-5'
+version: '0.2.1+barca-6'
 summary: Provides a full set of Edgex Foundry core microservices.
 description: |
  This snap provides a full set of EdgeX Foundry core micro services.
@@ -58,6 +58,25 @@ parts:
       - curl
   go:
     source-tag: go1.9.2
+  glide:
+    plugin: shell
+    source: .
+    shell: bash
+    shell-flags: ['-eux', '-o', 'pipefail']
+    shell-command: |
+      export ARCH=`arch`
+
+      if [ $ARCH = "x86_64" ] ; then
+        export PACKAGE="glide-v0.12.3-linux-amd64.tar"
+      elif [ $ARCH = "aarch64" ] ; then
+        export PACKAGE="glide-v0.12.3-linux-arm64.tar"
+      fi
+
+      pushd $SNAPCRAFT_PART_INSTALL
+      wget "https://github.com/Masterminds/glide/releases/download/v0.12.3/$PACKAGE.gz"
+      gunzip "./$PACKAGE.gz"
+      tar xvf "./$PACKAGE" --strip-components=1
+      popd
   consul:
     plugin: shell
     source: https://github.com/hashicorp/consul.git
@@ -119,7 +138,7 @@ parts:
       - -*
   config-seed:
     source: https://github.com/edgexfoundry/core-config-seed.git
-    source-branch: barcelona
+    source-tag: 0.2.1
     plugin: maven
     install: |
       echo "Installing config files"
@@ -249,49 +268,56 @@ parts:
     prime:
       - -launch-edgex-mongo.sh
       - -LICENSE-2.0.TXT
+  libzmq:
+    source: https://github.com/zeromq/libzmq.git
+    source-tag: v4.2.3
+    plugin: autotools
+    build-packages:
+      - asciidoc
   core-data:
-    source: https://github.com/edgexfoundry/core-data.git
-    source-branch: barcelona
-    plugin: maven
-    install: |
-      echo "Installing core-data files"
+    source: https://github.com/edgexfoundry/core-data-go.git
+    plugin: shell
+    after:
+      - glide
+      - go
+      - libzmq
+    shell: bash
+    shell-flags: ['-eux', '-o', 'pipefail']
+    shell-command: |
+      export GOROOT="$SNAPDIR/parts/go/install"
+      export PATH="$GOROOT/bin:$PATH"
 
-      # The logic following logic is all handled by DockerFile for
-      # the EdgeX core-data docker image.
-      install -d "$SNAPCRAFT_PART_INSTALL/jar/core-data"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/core-data-0.2.1-SNAPSHOT.jar" \
-         "$SNAPCRAFT_PART_INSTALL/jar/core-data/core-data.jar"
+      export XC_ARCH=`dpkg --print-architecture`
+      export XC_OS="linux"
+      export GLIDE="$SNAPDIR/parts/glide/install/glide"
+      export CGO_LDFLAGS="-L $SNAPDIR/parts/libzmq/install/lib"
+      export CGO_CPPFLAGS="-I $SNAPDIR/parts/libzmq/install/include"
 
-      # FIXME:
-      # copy service license into /usr/share/java/doc, because the
-      # jdk plugin has a bug which prevents any files from /usr/share/doc
-      # to be staged or primed.
-      install -DT "./Attribution.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-data/Attribution.txt"
-      install -DT "./LICENSE-2.0.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-data/LICENSE-2.0.txt"
-    prime:
-      - -etc/fonts
-      - -etc/fonts/X11
-      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/THIRD_PARTY_README
-      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
-      - -usr/lib/jvm/*/man
-      - -usr/lib/jvm/*/jre/man
-      - -usr/lib/jvm/*/jre/lib/images
-      - -usr/lib/jvm/*/include
-      - -usr/lib/jvm/*/bin
-      - -usr/lib/jvm/*/lib
-      - -usr/lib/jvm/*/docs
-      - -usr/lib/jvm/*/src.zip
-      - -usr/share/X11
-      - -usr/share/man
-      - -usr/share/fonts
-      - -usr/share/alsa
+      go version
+
+      mkdir -p .gopath/src/github.com/edgexfoundry
+      export GOPATH="$PWD/.gopath"
+      export PATH="$GOPATH/bin:$PATH"
+      ln -s "$PWD" .gopath/src/github.com/edgexfoundry/core-data-go
+
+      pushd .gopath/src/github.com/edgexfoundry/core-data-go
+      $GLIDE install
+      go install
+      popd
+
+      install -DT "./.gopath/bin/core-data-go" "$SNAPCRAFT_PART_INSTALL/bin/core-data-go"
+      install -DT "./res/configuration.json" \
+                  "$SNAPCRAFT_PART_INSTALL/config/core-data-go/res/configuration.json"
+      install -DT ".gopath/src/github.com/edgexfoundry/core-data-go/Attribution.txt" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-data-go/Attribution.txt"
+      install -DT ".gopath/src/github.com/edgexfoundry/core-data-go/LICENSE-2.0.txt" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-data-go/LICENSE-2.0.txt"
+    build-packages:
+      - zip
   support-logging:
     source: https://github.com/edgexfoundry/support-logging.git
-    source-branch: barcelona
+    # the following commit == 0.5.0 version update
+    source-commit: "1562d80"
     plugin: maven
     install: |
       echo "Installing support-logging files"
@@ -299,7 +325,7 @@ parts:
       # The logic following logic is all handled by DockerFile for
       # the EdgeX support-logging docker image.
       install -d "$SNAPCRAFT_PART_INSTALL/jar/support-logging"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/support-logging-0.2.1-SNAPSHOT.jar" \
+      mv "$SNAPCRAFT_PART_INSTALL/jar/support-logging-0.5.0-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/support-logging/support-logging.jar"
 
       # FIXME:
@@ -331,7 +357,8 @@ parts:
       - -usr/share/alsa
   support-notifications:
     source: https://github.com/edgexfoundry/support-notifications.git
-    source-branch: barcelona
+    # the following commit == 0.5.0 version update +1 (test fix)
+    source-commit: "fa0dc61"
     plugin: maven
     install: |
       echo "Installing support-notifications files"
@@ -339,7 +366,7 @@ parts:
       # The logic following logic is all handled by DockerFile for
       # the EdgeX support-notifications docker image.
       install -d "$SNAPCRAFT_PART_INSTALL/jar/support-notifications"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/support-notifications-0.2.1-SNAPSHOT.jar" \
+      mv "$SNAPCRAFT_PART_INSTALL/jar/support-notifications-0.5.0-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/support-notifications/support-notifications.jar"
 
       # FIXME:
@@ -370,88 +397,82 @@ parts:
       - -usr/share/fonts
       - -usr/share/alsa
   core-metadata:
-    source: https://github.com/edgexfoundry/core-metadata.git
-    source-branch: barcelona
-    plugin: maven
-    install: |
-      echo "Installing core-metadata files"
+    source: https://github.com/edgexfoundry/core-metadata-go.git
+    plugin: shell
+    after:
+      - glide
+      - go
+    build-packages:
+      - zip
+    shell: bash
+    shell-flags: ['-eux', '-o', 'pipefail']
+    shell-command: |
+      export GOROOT="$SNAPDIR/parts/go/install"
+      export PATH="$GOROOT/bin:$PATH"
+      export GLIDE="$SNAPDIR/parts/glide/install/glide"
+      export XC_ARCH=`dpkg --print-architecture`
+      export XC_OS="linux"
 
-      # The logic following logic is all handled by DockerFile for
-      # the EdgeX core-metadata docker image.
-      install -d "$SNAPCRAFT_PART_INSTALL/jar/core-metadata"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/core-metadata-0.2.1-SNAPSHOT.jar" \
-         "$SNAPCRAFT_PART_INSTALL/jar/core-metadata/core-metadata.jar"
+      go version
 
-      # FIXME:
-      # copy service license into /usr/share/java/doc, because the
-      # jdk plugin has a bug which prevents any files from /usr/share/doc
-      # to be staged or primed.
-      install -DT "./Attribution.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-metadata/Attribution.txt"
-      install -DT "./LICENSE-2.0.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-metadata/LICENSE-2.0.txt"
-    prime:
-      - -etc/fonts
-      - -etc/fonts/X11
-      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/THIRD_PARTY_README
-      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
-      - -usr/lib/jvm/*/man
-      - -usr/lib/jvm/*/jre/man
-      - -usr/lib/jvm/*/jre/lib/images
-      - -usr/lib/jvm/*/include
-      - -usr/lib/jvm/*/bin
-      - -usr/lib/jvm/*/lib
-      - -usr/lib/jvm/*/docs
-      - -usr/lib/jvm/*/src.zip
-      - -usr/share/X11
-      - -usr/share/man
-      - -usr/share/fonts
-      - -usr/share/alsa
+      mkdir -p .gopath/src/github.com/edgexfoundry
+      export GOPATH="$PWD/.gopath"
+      export PATH="$GOPATH/bin:$PATH"
+      ln -s "$PWD" .gopath/src/github.com/edgexfoundry/core-metadata-go
+
+      pushd .gopath/src/github.com/edgexfoundry/core-metadata-go
+      $GLIDE install
+      go install
+      popd
+
+      install -DT "./.gopath/bin/core-metadata-go" "$SNAPCRAFT_PART_INSTALL/bin/core-metadata-go"
+      install -DT "./res/configuration.json" \
+                  "$SNAPCRAFT_PART_INSTALL/config/core-metadata-go/res/configuration.json"
+      install -DT ".gopath/src/github.com/edgexfoundry/core-metadata-go/Attribution.txt" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-metadata-go/Attribution.txt"
+      install -DT ".gopath/src/github.com/edgexfoundry/core-metadata-go/LICENSE-2.0.txt" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-metadata-go/LICENSE-2.0.txt"
   core-command:
-    source: https://github.com/edgexfoundry/core-command.git
-    source-branch: barcelona
-    plugin: maven
-    install: |
-      echo "Installing core-command files"
+    source: https://github.com/edgexfoundry/core-command-go.git
+    plugin: shell
+    after: [go]
+    shell: bash
+    shell-flags: ['-eux', '-o', 'pipefail']
+    shell-command: |
+      export GOROOT="$SNAPDIR/parts/go/install"
+      export PATH="$GOROOT/bin:$PATH"
+      export GLIDE="$SNAPDIR/parts/glide/install/glide"
+      export XC_ARCH=`dpkg --print-architecture`
+      export XC_OS="linux"
 
-      # The logic following logic is all handled by DockerFile for
-      # the EdgeX core-command docker image.
-      install -d "$SNAPCRAFT_PART_INSTALL/jar/core-command"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/core-command-0.2.1-SNAPSHOT.jar" \
-         "$SNAPCRAFT_PART_INSTALL/jar/core-command/core-command.jar"
+      go version
 
-      # FIXME:
-      # copy service license into /usr/share/java/doc, because the
-      # jdk plugin has a bug which prevents any files from /usr/share/doc
-      # to be staged or primed.
-      install -DT "./Attribution.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-command/Attribution.txt"
-      install -DT "./LICENSE-2.0.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/core-command/LICENSE-2.0.txt"
-    prime:
-      - -etc/fonts
-      - -etc/fonts/X11
-      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/THIRD_PARTY_README
-      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
-      - -usr/lib/jvm/*/man
-      - -usr/lib/jvm/*/jre/man
-      - -usr/lib/jvm/*/jre/lib/images
-      - -usr/lib/jvm/*/include
-      - -usr/lib/jvm/*/bin
-      - -usr/lib/jvm/*/lib
-      - -usr/lib/jvm/*/docs
-      - -usr/lib/jvm/*/src.zip
-      - -usr/share/X11
-      - -usr/share/man
-      - -usr/share/fonts
-      - -usr/share/alsa
+      mkdir -p .gopath/src/github.com/edgexfoundry
+      export GOPATH="$PWD/.gopath"
+      export PATH="$GOPATH/bin:$PATH"
+      ln -s "$PWD" .gopath/src/github.com/edgexfoundry/core-command-go
+
+      pushd .gopath/src/github.com/edgexfoundry/core-command-go
+      $GLIDE install
+      go install
+      popd
+
+      install -DT "./.gopath/bin/core-command-go" "$SNAPCRAFT_PART_INSTALL/bin/core-command-go"
+      install -DT "./res/configuration.json" \
+                  "$SNAPCRAFT_PART_INSTALL/config/core-command-go/res/configuration.json"
+      install -DT ".gopath/src/github.com/edgexfoundry/core-command-go/Attribution.txt" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-command-go/Attribution.txt"
+      install -DT ".gopath/src/github.com/edgexfoundry/core-command-go/LICENSE-2.0.txt" \
+                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-command-go/LICENSE-2.0.txt"
+    after:
+      - glide
+      - go
+    build-packages:
+      - zip
   support-scheduler:
     source: https://github.com/edgexfoundry/support-scheduler.git
-    source-branch: barcelona
+    # the following commit == 0.5.0 version update +1 (core-domain fix)
+    source-commit: "00707ae"
     plugin: maven
     install: |
       echo "Installing support-scheduler files"
@@ -459,7 +480,7 @@ parts:
       # The logic following logic is all handled by DockerFile for
       # the EdgeX support-scheduler docker image.
       install -d "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler-0.2.1-SNAPSHOT.jar" \
+      mv "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler-0.5.0-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/support-scheduler/support-scheduler.jar"
 
       # FIXME:
@@ -489,97 +510,47 @@ parts:
       - -usr/share/man
       - -usr/share/fonts
       - -usr/share/alsa
-  export-client:
-    source: https://github.com/edgexfoundry/export-client.git
-    source-branch: barcelona
-    plugin: maven
-    install: |
-      echo "Installing export-client files"
+  export-go:
+    source: https://github.com/edgexfoundry/export-go.git
+    plugin: shell
+    after:
+      - glide
+      - go
+      - libzmq
+    build-packages:
+      - zip
+    shell: bash
+    shell-flags: ['-eux', '-o', 'pipefail']
+    shell-command: |
+      export GOROOT="$SNAPDIR/parts/go/install"
+      export PATH="$GOROOT/bin:$PATH"
+      export GLIDE="$SNAPDIR/parts/glide/install/glide"
+      export XC_ARCH=`dpkg --print-architecture`
+      export XC_OS="linux"
+      export CGO_LDFLAGS="-L $SNAPDIR/parts/libzmq/install/lib"
+      export CGO_CPPFLAGS="-I $SNAPDIR/parts/libzmq/install/include"
 
-      # The logic following logic is all handled by DockerFile for
-      # the EdgeX export-client docker image.
-      install -d "$SNAPCRAFT_PART_INSTALL/jar/export-client"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/export-client-0.2.1-SNAPSHOT.jar" \
-         "$SNAPCRAFT_PART_INSTALL/jar/export-client/export-client.jar"
+      go version
 
-      # FIXME:
-      # copy service license into /usr/share/java/doc, because the
-      # jdk plugin has a bug which prevents any files from /usr/share/doc
-      # to be staged or primed.
-      install -DT "./Attribution.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/export-client/Attribution.txt"
-      install -DT "./LICENSE-2.0.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/export-client/LICENSE-2.0.txt"
-    prime:
-      - -etc/fonts
-      - -etc/fonts/X11
-      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/THIRD_PARTY_README
-      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
-      - -usr/lib/jvm/*/man
-      - -usr/lib/jvm/*/jre/man
-      - -usr/lib/jvm/*/jre/lib/images
-      - -usr/lib/jvm/*/include
-      - -usr/lib/jvm/*/bin
-      - -usr/lib/jvm/*/lib
-      - -usr/lib/jvm/*/docs
-      - -usr/lib/jvm/*/src.zip
-      - -usr/share/X11
-      - -usr/share/man
-      - -usr/share/fonts
-      - -usr/share/alsa
-  export-distro:
-    source: https://github.com/edgexfoundry/export-distro.git
-#   source-branch: barcelona
-    # a unit test failure was fixed post-barcelona
-    # however although the version was bumped to 0.5.0,
-    # a tag wasn't created.
-    source-commit: d2bb39c1f6da463a9b6c8b8b127b0698fc2ef546
-    plugin: maven
-    prepare: |
-      # Remove a broken unit test; for details see:
-      # https://github.com/edgexfoundry/export-distro/issues/40
-      rm "./src/test/java/org/edgexfoundry/messaging/MQTTSenderTest.java"
-    install: |
-      echo "Installing export-distro files"
+      mkdir -p .gopath/src/github.com/edgexfoundry
+      export GOPATH="$PWD/.gopath"
+      export PATH="$GOPATH/bin:$PATH"
+      ln -s "$PWD" .gopath/src/github.com/edgexfoundry/export-go
 
-      # The logic following logic is all handled by DockerFile for
-      # the EdgeX export-distro docker image.
-      install -d "$SNAPCRAFT_PART_INSTALL/jar/export-distro"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/export-distro-0.5.0-SNAPSHOT.jar" \
-         "$SNAPCRAFT_PART_INSTALL/jar/export-distro/export-distro.jar"
+      pushd .gopath/src/github.com/edgexfoundry/export-go
+      $GLIDE install
+      make
+      popd
 
-      # FIXME:
-      # copy service license into /usr/share/java/doc, because the
-      # jdk plugin has a bug which prevents any files from /usr/share/doc
-      # to be staged or primed.
-      install -DT "./Attribution.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/export-distro/Attribution.txt"
-      install -DT "./LICENSE-2.0.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/export-distro/LICENSE-2.0.txt"
-    prime:
-      - -etc/fonts
-      - -etc/fonts/X11
-      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/THIRD_PARTY_README
-      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
-      - -usr/lib/jvm/*/man
-      - -usr/lib/jvm/*/jre/man
-      - -usr/lib/jvm/*/jre/lib/images
-      - -usr/lib/jvm/*/include
-      - -usr/lib/jvm/*/bin
-      - -usr/lib/jvm/*/lib
-      - -usr/lib/jvm/*/docs
-      - -usr/lib/jvm/*/src.zip
-      - -usr/share/X11
-      - -usr/share/man
-      - -usr/share/fonts
-      - -usr/share/alsa
+      install -DT "./build/client" "$SNAPCRAFT_PART_INSTALL/bin/export_client_go"
+      install -DT "./build/distro" "$SNAPCRAFT_PART_INSTALL/bin/export_distro_go"
+      install -DT "./build/distro" "$SNAPCRAFT_PART_INSTALL/bin/export_distro_zmq"
+      install -DT "./LICENSE" \
+              "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/export-go/LICENSE"
   support-rulesengine:
     source: https://github.com/edgexfoundry/support-rulesengine.git
-    source-branch: barcelona
+    # the following commit == 0.5.0 version update
+    source-commit: "2e282f5"
     plugin: maven
     install: |
       echo "Installing support-rulesengine files"
@@ -587,7 +558,7 @@ parts:
       # The logic following logic is all handled by DockerFile for
       # the EdgeX support-rulesengine docker image.
       install -d "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine-0.2.1-SNAPSHOT.jar" \
+      mv "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine-0.5.0-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/support-rulesengine/support-rulesengine.jar"
 
       # FIXME:
@@ -619,7 +590,8 @@ parts:
       - -usr/share/alsa
   device-virtual:
     source: https://github.com/edgexfoundry/device-virtual.git
-    source-branch: barcelona
+    # the following commit == 0.5.0 version update +1 (core-domain fix)
+    source-commit: "2033429"
     plugin: maven
     install: |
       echo "Installing device-virtual files"
@@ -629,7 +601,7 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/jar/device-virtual"
       install -d "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/bacnet_sample_profiles"
       install -d "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/modbus_sample_profiles"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/device-virtual-0.2.1-SNAPSHOT.jar" \
+      mv "$SNAPCRAFT_PART_INSTALL/jar/device-virtual-0.5.0-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/device-virtual.jar"
       cp ./bacnet_sample_profiles/*.yaml \
          "$SNAPCRAFT_PART_INSTALL/jar/device-virtual/bacnet_sample_profiles/"
