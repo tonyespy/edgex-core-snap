@@ -62,20 +62,18 @@ if [ $CORE_METADATA = "y" ] ; then
     sleep 33
     echo "Starting metadata"
 
-    $JAVA -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
-               -Dspring.cloud.consul.enabled=true \
-               -Dlogging.file=$SNAP_COMMON/edgex-core-metadata.log \
-               $SNAP/jar/core-metadata/core-metadata.jar &
+    # TODO: fix log file in res/configuration.json
+    cd $SNAP/config/core-metadata-go
+    $SNAP/bin/core-metadata-go &
 fi
 
 if [ $CORE_DATA = "y" ] ; then
     sleep 60
     echo "Starting core-data"
 
-    $JAVA -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
-               -Dspring.cloud.consul.enabled=true \
-               -Dlogging.file=$SNAP_COMMON/edgex-core-data.log \
-               $SNAP/jar/core-data/core-data.jar &
+    # TODO: fix log file in res/configuration.json
+    cd $SNAP/config/core-data-go
+    $SNAP/bin/core-data-go &
 fi
 
 
@@ -83,10 +81,9 @@ if [ $CORE_COMMAND = "y" ] ; then
     sleep 60
     echo "Starting command"
 
-    $JAVA -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
-               -Dspring.cloud.consul.enabled=true \
-               -Dlogging.file=$SNAP_COMMON/edgex-core-command.log \
-               $SNAP/jar/core-command/core-command.jar &
+    # TODO: fix log file in res/configuration.json
+    cd $SNAP/config/core-command-go
+    $SNAP/bin/core-data-go &
 fi
 
 
@@ -108,20 +105,16 @@ if [ $EXPORT_CLIENT = "y" ] ; then
     sleep 60
     echo "Starting export-client"
 
-    $JAVA -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
-               -Dspring.cloud.consul.enabled=true \
-               -Dlogging.file=$SNAP_COMMON/edgex-export-client.log \
-               $SNAP/jar/export-client/export-client.jar &
+    # TODO: fix log file in res/configuration.json
+    $SNAP/bin/export_client_go &
 fi
 
 if [ $EXPORT_DISTRO = "y" ] ; then
     sleep 60
     echo "Starting export-distro"
 
-    $JAVA -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
-               -Dspring.cloud.consul.enabled=true \
-               -Dlogging.file=$SNAP_COMMON/edgex-export-distro.log \
-               $SNAP/jar/export-distro/export-distro.jar &
+    # TODO: fix log file in res/configuration.json
+    $SNAP/bin/export_distro_zmq &
 fi
 
 if [ $DEVICE_VIRTUAL = "y" ] ; then
