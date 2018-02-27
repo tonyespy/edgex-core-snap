@@ -306,8 +306,13 @@ parts:
       popd
 
       install -DT "./.gopath/bin/core-data-go" "$SNAPCRAFT_PART_INSTALL/bin/core-data-go"
-      install -DT "./res/configuration.json" \
-                  "$SNAPCRAFT_PART_INSTALL/config/core-data-go/res/configuration.json"
+
+      # FIXME: settings can't be overridden from the cmd-line!
+      install -d "$SNAPCRAFT_PART_INSTALL/config/core-data-go/res/"
+      cat ./res/configuration.json | \
+        sed -e s:./core-data.log:/var/snap/edgexfoundry-core/common/core-data.log: > \
+         "$SNAPCRAFT_PART_INSTALL/config/core-data-go/res/configuration.json"
+
       install -DT ".gopath/src/github.com/edgexfoundry/core-data-go/Attribution.txt" \
                  "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-data-go/Attribution.txt"
       install -DT ".gopath/src/github.com/edgexfoundry/core-data-go/LICENSE-2.0.txt" \
@@ -426,8 +431,13 @@ parts:
       popd
 
       install -DT "./.gopath/bin/core-metadata-go" "$SNAPCRAFT_PART_INSTALL/bin/core-metadata-go"
-      install -DT "./res/configuration.json" \
-                  "$SNAPCRAFT_PART_INSTALL/config/core-metadata-go/res/configuration.json"
+
+      # FIXME: settings can't be overridden from the cmd-line!
+      install -d "$SNAPCRAFT_PART_INSTALL/config/core-metadata-go/res/"
+      cat ./res/configuration.json | \
+        sed -e s:./metadata.log:/var/snap/edgexfoundry-core/common/core-metadata.log: > \
+         "$SNAPCRAFT_PART_INSTALL/config/core-metadata-go/res/configuration.json"
+
       install -DT ".gopath/src/github.com/edgexfoundry/core-metadata-go/Attribution.txt" \
                  "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-metadata-go/Attribution.txt"
       install -DT ".gopath/src/github.com/edgexfoundry/core-metadata-go/LICENSE-2.0.txt" \
@@ -458,8 +468,13 @@ parts:
       popd
 
       install -DT "./.gopath/bin/core-command-go" "$SNAPCRAFT_PART_INSTALL/bin/core-command-go"
-      install -DT "./res/configuration.json" \
-                  "$SNAPCRAFT_PART_INSTALL/config/core-command-go/res/configuration.json"
+
+      # FIXME: settings can't be overridden from the cmd-line!
+      install -d "$SNAPCRAFT_PART_INSTALL/config/core-command-go/res/"
+      cat ./res/configuration.json | \
+        sed -e s:./command.log:/var/snap/edgexfoundry-core/common/core-command.log: > \
+         "$SNAPCRAFT_PART_INSTALL/config/core-command-go/res/configuration.json"
+
       install -DT ".gopath/src/github.com/edgexfoundry/core-command-go/Attribution.txt" \
                  "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-command-go/Attribution.txt"
       install -DT ".gopath/src/github.com/edgexfoundry/core-command-go/LICENSE-2.0.txt" \
