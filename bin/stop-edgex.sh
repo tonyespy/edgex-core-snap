@@ -32,18 +32,18 @@ if [ $DEVICE_VIRTUAL = "y" ] ; then
 fi
 
 if [ $EXPORT_DISTRO = "y" ] ; then
-    pid=`ps -ef | grep export-distro | grep -v grep | awk '{print $2}'`
+    pid=`ps -ef | grep export_distro | grep -v grep | awk '{print $2}'`
 
     if [ ! -z $pid ] && [ $pid != "" ] ; then
-	kill_service $pid "export-distro"
+	kill_service $pid "export_distro"
     fi
 fi
 
 if [ $EXPORT_CLIENT = "y" ] ; then
-    pid=`ps -ef | grep export-client | grep -v grep | awk '{print $2}'`
+    pid=`ps -ef | grep export_client | grep -v grep | awk '{print $2}'`
 
     if [ ! -z $pid ] && [ $pid != "" ] ; then
-	kill_service $pid "export-client"
+	kill_service $pid "export_client"
     fi
 fi
 
@@ -56,26 +56,26 @@ if [ $SUPPORT_SCHEDULER = "y" ] ; then
 fi
 
 if [ $CORE_COMMAND = "y" ] ; then
-    pid=`ps -ef | grep core-command | grep -v grep | awk '{print $2}'`
+    pid=`ps -ef | grep core-command-go | grep -v grep | awk '{print $2}'`
 
     if [ ! -z $pid ] && [ $pid != "" ] ; then
-	kill_service $pid "core-command"
+	kill_service $pid "core-command-go"
     fi
 fi
 
 if [ $CORE_DATA = "y" ] ; then
-    pid=`ps -ef | grep core-data | grep -v grep | awk '{print $2}'`
+    pid=`ps -ef | grep core-data-go | grep -v grep | awk '{print $2}'`
 
     if [ ! -z $pid ] && [ $pid != "" ] ; then
-	kill_service $pid "core-data"
+	kill_service $pid "core-data-go"
     fi
 fi
 
 if [ $CORE_METADATA = "y" ] ; then
-    pid=`ps -ef | grep core-metadata | grep -v grep | awk '{print $2}'`
+    pid=`ps -ef | grep core-metadata-go | grep -v grep | awk '{print $2}'`
 
     if [ ! -z $pid ] && [ $pid != "" ] ; then
-	kill_service $pid "core-metadata"
+	kill_service $pid "core-metadata-go"
     fi
 fi
 
