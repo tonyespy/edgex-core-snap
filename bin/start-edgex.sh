@@ -83,7 +83,7 @@ if [ $CORE_COMMAND = "y" ] ; then
 
     # TODO: fix log file in res/configuration.json
     cd $SNAP/config/core-command-go
-    $SNAP/bin/core-data-go &
+    $SNAP/bin/core-command-go &
 fi
 
 
