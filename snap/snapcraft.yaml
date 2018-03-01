@@ -308,9 +308,11 @@ parts:
       install -DT "./.gopath/bin/core-data-go" "$SNAPCRAFT_PART_INSTALL/bin/core-data-go"
 
       # FIXME: settings can't be overridden from the cmd-line!
+      # Override 'LogFile' and 'LoggingRemoteURL'
       install -d "$SNAPCRAFT_PART_INSTALL/config/core-data-go/res/"
       cat ./res/configuration.json | \
-        sed -e s:./core-data.log:/var/snap/edgexfoundry-core/common/core-data.log: > \
+        sed -e s:./core-data.log:/var/snap/edgexfoundry-core/common/core-data.log: \
+            -e s:'http\://localhost\:48061/api/v1/logs':: > \
          "$SNAPCRAFT_PART_INSTALL/config/core-data-go/res/configuration.json"
 
       install -DT ".gopath/src/github.com/edgexfoundry/core-data-go/Attribution.txt" \
@@ -433,9 +435,11 @@ parts:
       install -DT "./.gopath/bin/core-metadata-go" "$SNAPCRAFT_PART_INSTALL/bin/core-metadata-go"
 
       # FIXME: settings can't be overridden from the cmd-line!
+      # Override 'LogFile' and 'LoggingRemoteURL'
       install -d "$SNAPCRAFT_PART_INSTALL/config/core-metadata-go/res/"
       cat ./res/configuration.json | \
-        sed -e s:./metadata.log:/var/snap/edgexfoundry-core/common/core-metadata.log: > \
+        sed -e s:./metadata.log:/var/snap/edgexfoundry-core/common/core-metadata.log: \
+            -e s:'http\://localhost\:48061/api/v1/logs':: > \
          "$SNAPCRAFT_PART_INSTALL/config/core-metadata-go/res/configuration.json"
 
       install -DT ".gopath/src/github.com/edgexfoundry/core-metadata-go/Attribution.txt" \
@@ -470,9 +474,11 @@ parts:
       install -DT "./.gopath/bin/core-command-go" "$SNAPCRAFT_PART_INSTALL/bin/core-command-go"
 
       # FIXME: settings can't be overridden from the cmd-line!
+      # Override 'LogFile' and 'LoggingRemoteURL'
       install -d "$SNAPCRAFT_PART_INSTALL/config/core-command-go/res/"
       cat ./res/configuration.json | \
-        sed -e s:./command.log:/var/snap/edgexfoundry-core/common/core-command.log: > \
+        sed -e s:./command.log:/var/snap/edgexfoundry-core/common/core-command.log: \
+            -e s:'http\://localhost\:48061/api/v1/logs':: > \
          "$SNAPCRAFT_PART_INSTALL/config/core-command-go/res/configuration.json"
 
       install -DT ".gopath/src/github.com/edgexfoundry/core-command-go/Attribution.txt" \
