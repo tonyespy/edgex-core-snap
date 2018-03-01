@@ -121,9 +121,23 @@ if [ $DEVICE_VIRTUAL = "y" ] ; then
     sleep 60
     echo "Starting device-virtual"
 
+    # first-time, create sample profile dirs in $SNAP_COMMON
+    if [ ! -e "$SNAP_COMMON"/bacnet_profiles ]; then
+	mkdir "$SNAP_COMMON"/bacnet_profiles
+	cp "$SNAP"/jar/device-virtual/bacnet_sample_profiles/*.yaml \
+	   "$SNAP_COMMON"/bacnet_profiles
+    fi
+
+    if [ ! -e "$SNAP_COMMON"/modbus_profiles ]; then
+	mkdir "$SNAP_COMMON"/modbus_profiles
+	cp "$SNAP"/jar/device-virtual/modbus_sample_profiles/*.yaml \
+	   "$SNAP_COMMON"/modbus_profiles
+    fi
+
     cd $SNAP/jar/device-virtual
     $JAVA -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                -Dspring.cloud.consul.enabled=true \
                -Dlogging.file=$SNAP_COMMON/edgex-device-virtual.log \
+               -Dapplication.device-profile-paths=$SNAP_COMMON/bacnet_profiles,$SNAP_COMMON/modbus_profiles \
                $SNAP/jar/device-virtual/device-virtual.jar &
 fi
