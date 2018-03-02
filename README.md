@@ -24,7 +24,7 @@ see the revisions available for your machine's architecture by running the comma
 ### Barcelona
 The Barcelona based snap can be installed with:
 
-`$ sudo snap install --edge edgexfoundry-core`
+`$ sudo snap install edgexfoundry-core --edge`
 
 ### California Preview
 The California Preview based snap can be installed with:
