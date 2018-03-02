@@ -13,7 +13,7 @@ CONSUL_ARGS="-server -client=0.0.0.0 -bootstrap -ui"
 
 CONSUL_DATA_DIR=$SNAP_DATA/consul/data
 CONSUL_CONFIG_DIR=$SNAP_DATA/consul/config
-LOG_DIR=$SNAP_DATA/logs
+LOG_DIR=$SNAP_COMMON
 
 # Handle directory creation & data cleanup
 if [ -e $CONSUL_DATA_DIR ] ; then
