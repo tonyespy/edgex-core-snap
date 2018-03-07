@@ -62,18 +62,16 @@ if [ $CORE_METADATA = "y" ] ; then
     sleep 33
     echo "Starting metadata"
 
-    # TODO: fix log file in res/configuration.json
-    cd $SNAP/config/core-metadata-go
-    $SNAP/bin/core-metadata-go &
+    cd $SNAP/config/core-metadata
+    $SNAP/bin/core-metadata &
 fi
 
 if [ $CORE_DATA = "y" ] ; then
     sleep 60
     echo "Starting core-data"
 
-    # TODO: fix log file in res/configuration.json
-    cd $SNAP/config/core-data-go
-    $SNAP/bin/core-data-go &
+    cd $SNAP/config/core-data
+    $SNAP/bin/core-data &
 fi
 
 
@@ -81,9 +79,8 @@ if [ $CORE_COMMAND = "y" ] ; then
     sleep 60
     echo "Starting command"
 
-    # TODO: fix log file in res/configuration.json
-    cd $SNAP/config/core-command-go
-    $SNAP/bin/core-command-go &
+    cd $SNAP/config/core-command
+    $SNAP/bin/core-command &
 fi
 
 
@@ -106,7 +103,7 @@ if [ $EXPORT_CLIENT = "y" ] ; then
     echo "Starting export-client"
 
     # TODO: fix log file in res/configuration.json
-    $SNAP/bin/export_client_go &
+    $SNAP/bin/export-client &
 fi
 
 if [ $EXPORT_DISTRO = "y" ] ; then
@@ -114,7 +111,7 @@ if [ $EXPORT_DISTRO = "y" ] ; then
     echo "Starting export-distro"
 
     # TODO: fix log file in res/configuration.json
-    $SNAP/bin/export_distro_zmq &
+    $SNAP/bin/export-distro &
 fi
 
 if [ $DEVICE_VIRTUAL = "y" ] ; then
