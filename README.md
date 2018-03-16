@@ -45,18 +45,18 @@ desktop/server.
 The hardware-observer and system-observe interfaces needs to be connected after installation
 using the following commands:
 
-`$ snap connect edgex-core-snap:hardware-observe core:hardware-observe`
+`$ snap connect edgexfoundry-core:hardware-observe core:hardware-observe`
 
-`$ snap connect edgex-core-snap:system-observe core:system-observe`
+`$ snap connect edgexfoundry-core:system-observe core:system-observe`
 
 ## Starting/Stopping EdgeX
 To start all the EdgeX microservices, use the following command:
 
-`$ edgex-core-snap.start-edgex`
+`$ edgexfoundry-core.start-edgex`
 
 To stop all the EdgeX microservices, use the following command:
 
-`$ edgex-core-snap.stop-edgex`
+`$ edgexfoundry-core.stop-edgex`
 
 **WARNING** - don't start the EdgeX snap on a system which is already running mongoDB or Consul.
 
