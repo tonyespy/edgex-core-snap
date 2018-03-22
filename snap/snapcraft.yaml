@@ -1,5 +1,5 @@
 name: edgexfoundry-core
-version: '0.5.1+cali-4'
+version: '0.5.1+cali-20180322'
 summary: Provides a full set of Edgex Foundry core microservices.
 description: |
  This snap provides a full set of EdgeX Foundry core micro services.
@@ -138,7 +138,7 @@ parts:
       - -*
   config-seed:
     source: https://github.com/edgexfoundry/core-config-seed.git
-    source-tag: 0.2.1
+    source-commit: 79faf75
     plugin: maven
     install: |
       echo "Installing config files"
@@ -146,7 +146,7 @@ parts:
       # The logic following logic is all handled by DockerFile for
       # the EdgeX core-config-seed docker image.
       install -d "$SNAPCRAFT_PART_INSTALL/jar/config-seed"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/core-config-seed-0.2.1-SNAPSHOT.jar" \
+      mv "$SNAPCRAFT_PART_INSTALL/jar/core-config-seed-0.5.0-SNAPSHOT.jar" \
          "$SNAPCRAFT_PART_INSTALL/jar/config-seed/core-config-seed.jar"
 
       # FIXME:
@@ -274,8 +274,9 @@ parts:
     plugin: autotools
     build-packages:
       - asciidoc
-  core-data:
-    source: https://github.com/edgexfoundry/core-data-go.git
+  edgex-go:
+    source: https://github.com/edgexfoundry/edgex-go.git
+    source-commit: cbb94a8
     plugin: shell
     after:
       - glide
@@ -289,7 +290,6 @@ parts:
 
       export XC_ARCH=`dpkg --print-architecture`
       export XC_OS="linux"
-      export GLIDE="$SNAPDIR/parts/glide/install/glide"
       export CGO_LDFLAGS="-L $SNAPDIR/parts/libzmq/install/lib"
       export CGO_CPPFLAGS="-I $SNAPDIR/parts/libzmq/install/include"
 
@@ -297,28 +297,59 @@ parts:
 
       mkdir -p .gopath/src/github.com/edgexfoundry
       export GOPATH="$PWD/.gopath"
-      export PATH="$GOPATH/bin:$PATH"
-      ln -s "$PWD" .gopath/src/github.com/edgexfoundry/core-data-go
+      export PATH="$GOPATH/bin:$PATH:$SNAPDIR/parts/glide/install"
+      ln -s "$PWD" .gopath/src/github.com/edgexfoundry/edgex-go
 
-      pushd .gopath/src/github.com/edgexfoundry/core-data-go
-      $GLIDE install
-      go install
+      pushd .gopath/src/github.com/edgexfoundry/edgex-go
+
+      make prepare
+      make build_microservices
       popd
 
-      install -DT "./.gopath/bin/core-data-go" "$SNAPCRAFT_PART_INSTALL/bin/core-data-go"
+      install -DT "./cmd/core-command/core-command" "$SNAPCRAFT_PART_INSTALL/bin/core-command"
+      install -DT "./cmd/core-data/core-data" "$SNAPCRAFT_PART_INSTALL/bin/core-data"
+      install -DT "./cmd/core-metadata/core-metadata" "$SNAPCRAFT_PART_INSTALL/bin/core-metadata"
+      install -DT "./cmd/export-distro/export-distro" "$SNAPCRAFT_PART_INSTALL/bin/export-distro"
+      install -DT "./cmd/export-client/export-client" "$SNAPCRAFT_PART_INSTALL/bin/export-client"
 
       # FIXME: settings can't be overridden from the cmd-line!
       # Override 'LogFile' and 'LoggingRemoteURL'
-      install -d "$SNAPCRAFT_PART_INSTALL/config/core-data-go/res/"
-      cat ./res/configuration.json | \
-        sed -e s:./core-data.log:/var/snap/edgexfoundry-core/common/core-data.log: \
-            -e s:'http\://localhost\:48061/api/v1/logs':: > \
-         "$SNAPCRAFT_PART_INSTALL/config/core-data-go/res/configuration.json"
+      install -d "$SNAPCRAFT_PART_INSTALL/config/core-command/res/"
+      install -d "$SNAPCRAFT_PART_INSTALL/config/core-data/res/"
+      install -d "$SNAPCRAFT_PART_INSTALL/config/core-metadata/res/"
 
-      install -DT ".gopath/src/github.com/edgexfoundry/core-data-go/Attribution.txt" \
-                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-data-go/Attribution.txt"
-      install -DT ".gopath/src/github.com/edgexfoundry/core-data-go/LICENSE-2.0.txt" \
-                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-data-go/LICENSE-2.0.txt"
+      cat "./cmd/core-command/res/configuration.json" | \
+        sed -e s:./logs/edgex-core-command.log:/var/snap/edgexfoundry-core/common/core-command.log: \
+            -e s:'http\://localhost\:48061/api/v1/logs':: > \
+       "$SNAPCRAFT_PART_INSTALL/config/core-command/res/configuration.json"
+
+      cat "./cmd/core-data/res/configuration.json" | \
+        sed -e s:./logs/edgex-core-data.log:/var/snap/edgexfoundry-core/common/core-data.log: \
+            -e s:'http\://localhost\:48061/api/v1/logs':: > \
+       "$SNAPCRAFT_PART_INSTALL/config/core-data/res/configuration.json"
+
+      cat "./cmd/core-metadata/res/configuration.json" | \
+        sed -e s:./logs/edgex-core-metadata.log:/var/snap/edgexfoundry-core/common/core-metadata.log: \
+            -e s:'http\://localhost\:48061/api/v1/logs':: > \
+       "$SNAPCRAFT_PART_INSTALL/config/core-metadata/res/configuration.json"
+
+      # "$SNAPCRAFT_PART_INSTALL/config/core-metadata/res/configuration.json" license files
+      install -DT "./core/command/Attribution.txt" \
+              "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-command/Attribution.txt"
+      install -DT "./LICENSE" \
+              "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-command/LICENSE"
+      install -DT "./core/data/Attribution.txt" \
+             "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-data/Attribution.txt"
+      install -DT "./LICENSE" \
+              "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-data/LICENSE"
+      install -DT "./core/metadata/Attribution.txt" \
+              "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-metadata/Attribution.txt"
+      install -DT "./LICENSE" \
+              "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-metdata/LICENSE"
+      install -DT "./LICENSE" \
+              "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/export-distro/LICENSE"
+      install -DT "./LICENSE" \
+              "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/export-client/LICENSE"
     build-packages:
       - zip
   support-logging:
@@ -403,93 +434,6 @@ parts:
       - -usr/share/man
       - -usr/share/fonts
       - -usr/share/alsa
-  core-metadata:
-    source: https://github.com/edgexfoundry/core-metadata-go.git
-    plugin: shell
-    after:
-      - glide
-      - go
-    build-packages:
-      - zip
-    shell: bash
-    shell-flags: ['-eux', '-o', 'pipefail']
-    shell-command: |
-      export GOROOT="$SNAPDIR/parts/go/install"
-      export PATH="$GOROOT/bin:$PATH"
-      export GLIDE="$SNAPDIR/parts/glide/install/glide"
-      export XC_ARCH=`dpkg --print-architecture`
-      export XC_OS="linux"
-
-      go version
-
-      mkdir -p .gopath/src/github.com/edgexfoundry
-      export GOPATH="$PWD/.gopath"
-      export PATH="$GOPATH/bin:$PATH"
-      ln -s "$PWD" .gopath/src/github.com/edgexfoundry/core-metadata-go
-
-      pushd .gopath/src/github.com/edgexfoundry/core-metadata-go
-      $GLIDE install
-      go install
-      popd
-
-      install -DT "./.gopath/bin/core-metadata-go" "$SNAPCRAFT_PART_INSTALL/bin/core-metadata-go"
-
-      # FIXME: settings can't be overridden from the cmd-line!
-      # Override 'LogFile' and 'LoggingRemoteURL'
-      install -d "$SNAPCRAFT_PART_INSTALL/config/core-metadata-go/res/"
-      cat ./res/configuration.json | \
-        sed -e s:./metadata.log:/var/snap/edgexfoundry-core/common/core-metadata.log: \
-            -e s:'http\://localhost\:48061/api/v1/logs':: > \
-         "$SNAPCRAFT_PART_INSTALL/config/core-metadata-go/res/configuration.json"
-
-      install -DT ".gopath/src/github.com/edgexfoundry/core-metadata-go/Attribution.txt" \
-                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-metadata-go/Attribution.txt"
-      install -DT ".gopath/src/github.com/edgexfoundry/core-metadata-go/LICENSE-2.0.txt" \
-                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-metadata-go/LICENSE-2.0.txt"
-  core-command:
-    source: https://github.com/edgexfoundry/core-command-go.git
-    plugin: shell
-    after: [go]
-    shell: bash
-    shell-flags: ['-eux', '-o', 'pipefail']
-    shell-command: |
-      export GOROOT="$SNAPDIR/parts/go/install"
-      export PATH="$GOROOT/bin:$PATH"
-      export GLIDE="$SNAPDIR/parts/glide/install/glide"
-      export XC_ARCH=`dpkg --print-architecture`
-      export XC_OS="linux"
-
-      go version
-
-      mkdir -p .gopath/src/github.com/edgexfoundry
-      export GOPATH="$PWD/.gopath"
-      export PATH="$GOPATH/bin:$PATH"
-      ln -s "$PWD" .gopath/src/github.com/edgexfoundry/core-command-go
-
-      pushd .gopath/src/github.com/edgexfoundry/core-command-go
-      $GLIDE install
-      go install
-      popd
-
-      install -DT "./.gopath/bin/core-command-go" "$SNAPCRAFT_PART_INSTALL/bin/core-command-go"
-
-      # FIXME: settings can't be overridden from the cmd-line!
-      # Override 'LogFile' and 'LoggingRemoteURL'
-      install -d "$SNAPCRAFT_PART_INSTALL/config/core-command-go/res/"
-      cat ./res/configuration.json | \
-        sed -e s:./command.log:/var/snap/edgexfoundry-core/common/core-command.log: \
-            -e s:'http\://localhost\:48061/api/v1/logs':: > \
-         "$SNAPCRAFT_PART_INSTALL/config/core-command-go/res/configuration.json"
-
-      install -DT ".gopath/src/github.com/edgexfoundry/core-command-go/Attribution.txt" \
-                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-command-go/Attribution.txt"
-      install -DT ".gopath/src/github.com/edgexfoundry/core-command-go/LICENSE-2.0.txt" \
-                 "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-command-go/LICENSE-2.0.txt"
-    after:
-      - glide
-      - go
-    build-packages:
-      - zip
   support-scheduler:
     source: https://github.com/edgexfoundry/support-scheduler.git
     # the following commit == 0.5.0 version update +1 (core-domain fix)
@@ -530,44 +474,7 @@ parts:
       - -usr/share/X11
       - -usr/share/man
       - -usr/share/fonts
-      - -usr/share/alsa
-  export-go:
-    source: https://github.com/edgexfoundry/export-go.git
-    plugin: shell
-    after:
-      - glide
-      - go
-      - libzmq
-    build-packages:
-      - zip
-    shell: bash
-    shell-flags: ['-eux', '-o', 'pipefail']
-    shell-command: |
-      export GOROOT="$SNAPDIR/parts/go/install"
-      export PATH="$GOROOT/bin:$PATH"
-      export GLIDE="$SNAPDIR/parts/glide/install/glide"
-      export XC_ARCH=`dpkg --print-architecture`
-      export XC_OS="linux"
-      export CGO_LDFLAGS="-L $SNAPDIR/parts/libzmq/install/lib"
-      export CGO_CPPFLAGS="-I $SNAPDIR/parts/libzmq/install/include"
-
-      go version
-
-      mkdir -p .gopath/src/github.com/edgexfoundry
-      export GOPATH="$PWD/.gopath"
-      export PATH="$GOPATH/bin:$PATH"
-      ln -s "$PWD" .gopath/src/github.com/edgexfoundry/export-go
-
-      pushd .gopath/src/github.com/edgexfoundry/export-go
-      $GLIDE install
-      make
-      popd
-
-      install -DT "./build/client" "$SNAPCRAFT_PART_INSTALL/bin/export_client_go"
-      install -DT "./build/distro" "$SNAPCRAFT_PART_INSTALL/bin/export_distro_go"
-      install -DT "./build/distro" "$SNAPCRAFT_PART_INSTALL/bin/export_distro_zmq"
-      install -DT "./LICENSE" \
-              "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/export-go/LICENSE"
+      - -usr/share/
   support-rulesengine:
     source: https://github.com/edgexfoundry/support-rulesengine.git
     # the following commit == 0.5.0 version update

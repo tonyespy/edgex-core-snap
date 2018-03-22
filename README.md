@@ -70,10 +70,18 @@ least once to copy the default version into place.
 
 ## Limitations
 
- * the Barcelona snap is large (~590M), however it only includes a single JRE, shared by all services.
+### Barcelona
+  * the Barcelona snap is large (~590M), however it only includes a single JRE, shared by all services.
 
- * none of the services are actually defined as such in snapcraft.yaml, instead shell-scripts are used
-   to start and stop the EdgeX microservices.
+  * none of the services are actually defined as such in snapcraft.yaml, instead shell-scripts are used
+    to start and stop the EdgeX microservices.
+
+### California (0.5.1+cali-20180322)
+  * the California snap is much smaller (~400MB)
+
+  * the new Go-based core services currently don't load configuration from Consul
+
+  * the new Go-based export services don't generate log files, and export-client has a broken health check
 
 ## Building
 
