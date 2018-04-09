@@ -63,7 +63,7 @@ if [ $CORE_METADATA = "y" ] ; then
     echo "Starting metadata"
 
     cd $SNAP/config/core-metadata
-    $SNAP/bin/core-metadata &
+    $SNAP/bin/core-metadata -consul=true &
 fi
 
 if [ $CORE_DATA = "y" ] ; then
@@ -71,7 +71,7 @@ if [ $CORE_DATA = "y" ] ; then
     echo "Starting core-data"
 
     cd $SNAP/config/core-data
-    $SNAP/bin/core-data &
+    $SNAP/bin/core-data -consul=true &
 fi
 
 
@@ -80,7 +80,7 @@ if [ $CORE_COMMAND = "y" ] ; then
     echo "Starting command"
 
     cd $SNAP/config/core-command
-    $SNAP/bin/core-command &
+    $SNAP/bin/core-common -consul=true &
 fi
 
 
@@ -134,6 +134,7 @@ if [ $DEVICE_VIRTUAL = "y" ] ; then
     cd $SNAP/jar/device-virtual
     $JAVA -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
                -Dspring.cloud.consul.enabled=true \
+               -Dlogging.level.org.edgexfoundry=DEBUG \
                -Dlogging.file=$SNAP_COMMON/edgex-device-virtual.log \
                -Dapplication.device-profile-paths=$SNAP_COMMON/bacnet_profiles,$SNAP_COMMON/modbus_profiles \
                $SNAP/jar/device-virtual/device-virtual.jar &
