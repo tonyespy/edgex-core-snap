@@ -35,6 +35,7 @@ apps:
     plugs: [network, network-bind]
   stop-edgex:
     command: bin/stop-edgex.sh
+    plugs: [system-observe, process-control]
   mongo:
     command: bin/mongo
     plugs: [network]
