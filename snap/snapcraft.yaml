@@ -303,7 +303,7 @@ parts:
       pushd .gopath/src/github.com/edgexfoundry/edgex-go
 
       make prepare
-      make build_microservices
+      make build
       popd
 
       install -DT "./cmd/core-command/core-command" "$SNAPCRAFT_PART_INSTALL/bin/core-command"
