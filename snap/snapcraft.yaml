@@ -318,22 +318,22 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/config/core-data/res/"
       install -d "$SNAPCRAFT_PART_INSTALL/config/core-metadata/res/"
 
-      cat "./cmd/core-command/res/configuration.json" | \
+      cat "./cmd/core-command/res/configuration.toml" | \
         sed -e s:./logs/edgex-core-command.log:/var/snap/edgexfoundry-core/common/core-command.log: \
             -e s:'http\://localhost\:48061/api/v1/logs':: > \
-       "$SNAPCRAFT_PART_INSTALL/config/core-command/res/configuration.json"
+       "$SNAPCRAFT_PART_INSTALL/config/core-command/res/configuration.toml"
 
-      cat "./cmd/core-data/res/configuration.json" | \
+      cat "./cmd/core-data/res/configuration.toml" | \
         sed -e s:./logs/edgex-core-data.log:/var/snap/edgexfoundry-core/common/core-data.log: \
             -e s:'http\://localhost\:48061/api/v1/logs':: > \
-       "$SNAPCRAFT_PART_INSTALL/config/core-data/res/configuration.json"
+       "$SNAPCRAFT_PART_INSTALL/config/core-data/res/configuration.toml"
 
-      cat "./cmd/core-metadata/res/configuration.json" | \
+      cat "./cmd/core-metadata/res/configuration.toml" | \
         sed -e s:./logs/edgex-core-metadata.log:/var/snap/edgexfoundry-core/common/core-metadata.log: \
             -e s:'http\://localhost\:48061/api/v1/logs':: > \
-       "$SNAPCRAFT_PART_INSTALL/config/core-metadata/res/configuration.json"
+       "$SNAPCRAFT_PART_INSTALL/config/core-metadata/res/configuration.toml"
 
-      # "$SNAPCRAFT_PART_INSTALL/config/core-metadata/res/configuration.json" license files
+      # handle license files
       install -DT "./core/command/Attribution.txt" \
               "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/core-command/Attribution.txt"
       install -DT "./LICENSE" \
