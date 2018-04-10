@@ -63,7 +63,7 @@ if [ $CORE_METADATA = "y" ] ; then
     echo "Starting metadata"
 
     cd $SNAP/config/core-metadata
-    $SNAP/bin/core-metadata -consul=true &
+    $SNAP/bin/core-metadata -consul=y &
 fi
 
 if [ $CORE_DATA = "y" ] ; then
@@ -71,7 +71,7 @@ if [ $CORE_DATA = "y" ] ; then
     echo "Starting core-data"
 
     cd $SNAP/config/core-data
-    $SNAP/bin/core-data -consul=true &
+    $SNAP/bin/core-data -consul=y &
 fi
 
 
@@ -80,7 +80,7 @@ if [ $CORE_COMMAND = "y" ] ; then
     echo "Starting command"
 
     cd $SNAP/config/core-command
-    $SNAP/bin/core-common -consul=true &
+    $SNAP/bin/core-common -consul=y &
 fi
 
 
