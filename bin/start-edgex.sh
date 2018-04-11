@@ -80,7 +80,7 @@ if [ $CORE_COMMAND = "y" ] ; then
     echo "Starting command"
 
     cd $SNAP/config/core-command
-    $SNAP/bin/core-common -consul=y &
+    $SNAP/bin/core-command -consul=y &
 fi
 
 
