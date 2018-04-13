@@ -133,7 +133,7 @@ if [ $DEVICE_VIRTUAL = "y" ] ; then
 
     cd $SNAP/jar/device-virtual
     $JAVA -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
-               -Dspring.cloud.consul.enabled=true \
+               -Dspring.cloud.consul.enabled=false \
                -Dlogging.level.org.edgexfoundry=DEBUG \
                -Dlogging.file=$SNAP_COMMON/edgex-device-virtual.log \
                -Dapplication.device-profile-paths=$SNAP_COMMON/bacnet_profiles,$SNAP_COMMON/modbus_profiles \
