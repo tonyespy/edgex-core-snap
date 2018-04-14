@@ -1,5 +1,5 @@
 name: edgexfoundry-core
-version: '0.5.1+cali-20180411'
+version: '0.5.1+cali-20180413'
 summary: Provides a full set of Edgex Foundry core microservices.
 description: |
  This snap provides a full set of EdgeX Foundry core micro services.
@@ -277,7 +277,7 @@ parts:
       - asciidoc
   edgex-go:
     source: https://github.com/edgexfoundry/edgex-go.git
-    source-commit: 370a898
+    source-commit: b3be17f
     plugin: shell
     after:
       - glide
