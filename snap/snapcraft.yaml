@@ -51,6 +51,9 @@ apps:
   consul-cli:
     command: bin/consul
     plugs: [network, network-bind]
+  curl:
+    command: usr/bin/curl
+    plugs: [network]
 
 parts:
   curl:
