@@ -62,6 +62,7 @@ parts:
       - curl
   go:
     source-tag: go1.9.2
+    source-depth: 1
   glide:
     plugin: shell
     source: .
@@ -228,6 +229,7 @@ parts:
       - -mongodb-linux-*-ubuntu1604-3.4.10.tgz
   mongo-config:
     source: https://github.com/edgexfoundry/docker-edgex-mongo.git
+    source-depth: 1
     plugin: dump
     # NOTE - both the mongo-config & go install README.md to root-dir of the snap
     # which breaks when 'stage' runs.  The only workaround so far is
@@ -257,6 +259,7 @@ parts:
   libzmq:
     source: https://github.com/zeromq/libzmq.git
     source-tag: v4.2.3
+    source-depth: 1
     plugin: autotools
     build-packages:
       - asciidoc
