@@ -337,6 +337,7 @@ parts:
               "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/export-client/LICENSE"
     build-packages:
       - zip
+      - pkg-config
     stage-packages:
       - libzmq3-dev
   support-logging:
