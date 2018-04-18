@@ -258,13 +258,6 @@ parts:
     prime:
       - -launch-edgex-mongo.sh
       - -LICENSE-2.0.TXT
-  libzmq:
-    source: https://github.com/zeromq/libzmq.git
-    source-tag: v4.2.3
-    source-depth: 1
-    plugin: autotools
-    build-packages:
-      - asciidoc
   edgex-go:
     source: https://github.com/edgexfoundry/edgex-go.git
     source-commit: b3be17f
@@ -272,7 +265,6 @@ parts:
     after:
       - glide
       - go
-      - libzmq
     shell: bash
     shell-flags: ['-eux', '-o', 'pipefail']
     shell-command: |
@@ -281,8 +273,6 @@ parts:
 
       export XC_ARCH=`dpkg --print-architecture`
       export XC_OS="linux"
-      export CGO_LDFLAGS="-L $SNAPDIR/parts/libzmq/install/lib"
-      export CGO_CPPFLAGS="-I $SNAPDIR/parts/libzmq/install/include"
 
       go version
 
@@ -343,6 +333,8 @@ parts:
               "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/export-client/LICENSE"
     build-packages:
       - zip
+    stage-packages:
+      - libzmq3-dev
   support-logging:
     source: https://github.com/edgexfoundry/support-logging.git
     # the following commit == 0.5.0 version update
