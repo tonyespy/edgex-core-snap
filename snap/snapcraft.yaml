@@ -74,8 +74,12 @@ parts:
 
       if [ $ARCH = "x86_64" ] ; then
         export PACKAGE="glide-v0.12.3-linux-amd64.tar"
+      elif [ $ARCH = "armhf" ] ; then
+        export PACKAGE="glide-v0.12.3-linux-armv7.tar"
       elif [ $ARCH = "aarch64" ] ; then
         export PACKAGE="glide-v0.12.3-linux-arm64.tar"
+      elif [ $ARCH = "i386" ] ; then
+        export PACKAGE="glide-v0.12.3-linux-386.tar"
       fi
 
       pushd $SNAPCRAFT_PART_INSTALL
