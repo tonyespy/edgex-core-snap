@@ -24,19 +24,11 @@ $SNAP/bin/start-consul.sh
 
 sleep 60
 
-MONGO_DATA_DIR=$SNAP_DATA/mongo/db
-
 echo "Starting config-seed..."
 $SNAP/bin/start-config-seed.sh
 
-echo "Starting mongo..."
-if [ -e $MONGO_DATA_DIR ] ; then
-    rm -rf $MONGO_DATA_DIR/*
-else
-    mkdir -p $MONGO_DATA_DIR
-fi
-
-$SNAP/mongo/launch-edgex-mongo.sh
+echo "Connecting to mongo..."
+$SNAP/mongo/connect-edgex-mongo.sh
 
 if [ $SUPPORT_LOGGING = "y" ] ; then
     sleep 60
