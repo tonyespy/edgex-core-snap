@@ -27,6 +27,7 @@ apps:
     command: bin/start-consul.sh
     # TODO: add stop-command
     plugs: [network, network-bind]
+    daemon: simple
   core-config-seed:
     command: bin/start-config-seed.sh
     plugs: [network, network-bind]
