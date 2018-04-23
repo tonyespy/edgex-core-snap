@@ -137,7 +137,8 @@ parts:
     source: https://github.com/edgexfoundry/core-config-seed.git
     source-commit: 79faf75
     plugin: maven
-    install: |
+    override-build: |
+      snapcraftctl build
       echo "Installing config files"
 
       # The logic following logic is all handled by DockerFile for
@@ -250,7 +251,8 @@ parts:
     stage:
       - -README.md
       - -Dockerfile*
-    install: |
+    override-build: |
+      snapcraftctl build
       echo "Installing mongo-config files"
       echo "DIR=`pwd`"
       echo "SNAPCRAFT_PART_INSTALL=$SNAPCRAFT_PART_INSTALL"
@@ -345,7 +347,8 @@ parts:
     # the following commit == 0.5.0 version update
     source-commit: "1562d80"
     plugin: maven
-    install: |
+    override-build: |
+      snapcraftctl build
       echo "Installing support-logging files"
 
       # The logic following logic is all handled by DockerFile for
@@ -386,7 +389,8 @@ parts:
     # the following commit == 0.5.0 version update +1 (test fix)
     source-commit: "fa0dc61"
     plugin: maven
-    install: |
+    override-build: |
+      snapcraftctl build
       echo "Installing support-notifications files"
 
       # The logic following logic is all handled by DockerFile for
@@ -427,7 +431,8 @@ parts:
     # the following commit == 0.5.0 version update +1 (core-domain fix)
     source-commit: "00707ae"
     plugin: maven
-    install: |
+    override-build: |
+      snapcraftctl build
       echo "Installing support-scheduler files"
 
       # The logic following logic is all handled by DockerFile for
@@ -468,7 +473,8 @@ parts:
     # the following commit == 0.5.0 version update
     source-commit: "2e282f5"
     plugin: maven
-    install: |
+    override-build: |
+      snapcraftctl build
       echo "Installing support-rulesengine files"
 
       # The logic following logic is all handled by DockerFile for
@@ -509,7 +515,8 @@ parts:
     # the following commit == 0.5.0 version update +1 (core-domain fix)
     source-commit: "2033429"
     plugin: maven
-    install: |
+    override-build: |
+      snapcraftctl build
       echo "Installing device-virtual files"
 
       # The logic following logic is all handled by DockerFile for
