@@ -84,61 +84,44 @@ parts:
   consul:
     plugin: shell
     source: https://github.com/hashicorp/consul.git
-    # source: ./consul
-    source-tag: v0.7.3
-    prepare: git apply $SNAPCRAFT_STAGE/0001-Link-all-dependencies-in-vendor-folder-to-the-custom.patch
+    source-tag: v1.0.7
     shell: bash
     shell-flags: ['-eux', '-o', 'pipefail']
     shell-command: |
-      export GOROOT="$SNAPDIR/parts/go/install"
-      export PATH="$GOROOT/bin:$PATH"
-
-      export XC_ARCH=`dpkg --print-architecture`
-      export XC_OS="linux"
-
-      go version
-
-      mkdir -p .gopath/src/github.com/hashicorp
-      export GOPATH="$PWD/.gopath"
+      export GOPATH=$(readlink -f $(pwd)/../go)
+      export GOIMPORTPATH=$GOPATH/src/github.com/hashicorp/consul/
       export PATH="$GOPATH/bin:$PATH"
-      ln -s "$PWD" .gopath/src/github.com/hashicorp/consul
+      mkdir -p $GOIMPORTPATH
+      cp -r ./* $GOIMPORTPATH
+      cd $GOIMPORTPATH
+      go get -u github.com/kardianos/govendor
+      govendor sync
+      make dev
+      
+      # install the consul binary
+      install -DT bin/consul "$SNAPCRAFT_PART_INSTALL/bin/consul" 
 
-      pushd .gopath/src/github.com/hashicorp/consul
-      make bin
-      popd
-
-      consulBin=".gopath/src/github.com/hashicorp/consul/pkg/linux_$XC_ARCH/consul"
-      "$consulBin" -v
-      install -DT "$(readlink -f "$consulBin")" "$SNAPCRAFT_PART_INSTALL/bin/consul"
       # handle consul LICENSE
       # TODO: do PATENT files need copying?
-      install -DT ".gopath/src/github.com/hashicorp/consul/LICENSE" \
+      install -DT "$GOIMPORTPATH/LICENSE" \
                  "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/hashicorp/consul/LICENSE"
 
       # handle vendor LICENSE files
-      pushd vendor
+      cd $GOIMPORTPATH/vendor
       for i in `find . -type f -name "LICENSE"`; do
         install -DT "$i" \
                  "$SNAPCRAFT_PART_INSTALL/usr/share/doc/$i"; done
-      popd
 
       # TODO: some LICENSE files fall under .gopath too
-      pushd .gopath/src
+      cd $GOPATH/src
       for i in `find . -type f -name "LICENSE"`; do
         install -DT "$i" \
                  "$SNAPCRAFT_PART_INSTALL/usr/share/doc/$i"; done
-      popd
     after:
       - go
-      - patch
     build-packages:
       - make
       - zip
-  patch:
-    source: patches
-    plugin: dump
-    prime:
-      - -*
   config-seed:
     source: https://github.com/edgexfoundry/core-config-seed.git
     source-commit: 79faf75
