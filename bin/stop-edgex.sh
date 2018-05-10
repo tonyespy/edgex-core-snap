@@ -94,20 +94,3 @@ if [ $SUPPORT_LOGGING = "y" ] ; then
 	kill_service $pid "support-logging"
     fi
 fi
-
-if [ $CORE_DATA = "y" ] || [ $CORE_METADATA = "y" ] ; then
-    pid=`ps -ef | grep mongod | grep -v grep | awk '{print $2}'`
-
-    if [ ! -z $pid ] && [ $pid != "" ] ; then
-	echo "shutting down mongod..."
-	$SNAP/bin/mongod --shutdown --dbpath $SNAP_DATA/mongo/db
-    fi
-fi
-
-pid=`ps -ef | grep "consul\ agent" | grep -v grep | awk '{print $2}'`
-if [ ! -z $pid ] && [ $pid != "" ] ; then
-
-    # use SIGINT to gracefully shutdown
-    echo "shutting down consul..."
-    int_service $pid "consul"
-fi
