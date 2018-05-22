@@ -9,7 +9,7 @@
 #
 set -e
 
-CONSUL_ARGS="-server -client=0.0.0.0 -bootstrap -ui"
+CONSUL_ARGS="-server -client=0.0.0.0 -bind=127.0.0.1 -bootstrap -ui"
 
 CONSUL_DATA_DIR=$SNAP_DATA/consul/data
 CONSUL_CONFIG_DIR=$SNAP_DATA/consul/config
@@ -42,10 +42,5 @@ fi
 exec $SNAP/bin/consul agent \
      -data-dir="$CONSUL_DATA_DIR" \
      -config-dir="$CONSUL_CONFIG_DIR" \
-     $CONSUL_ARGS | tee $LOG_DIR/core-consul.log &
-     
-
-
-
-
+     $CONSUL_ARGS | tee $LOG_DIR/core-consul.log
 
