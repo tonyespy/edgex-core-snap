@@ -68,6 +68,7 @@ parts:
     source: .
     shell: bash
     shell-flags: ['-eux', '-o', 'pipefail']
+    build-packages: [wget]
     shell-command: |
       export ARCH=`arch`
 
@@ -196,6 +197,7 @@ parts:
     source: .
     shell: bash
     shell-flags: ['-eux', '-o', 'pipefail']
+    build-packages: [wget]
     shell-command: |
       export ARCH=`arch`
 
