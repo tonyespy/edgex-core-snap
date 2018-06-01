@@ -9,7 +9,7 @@
 #
 set -e
 
-CONSUL_ARGS="-server -client=0.0.0.0 -bootstrap -ui"
+CONSUL_ARGS="-server -client=0.0.0.0 -bind=127.0.0.1 -bootstrap -ui"
 
 CONSUL_DATA_DIR=$SNAP_DATA/consul/data
 CONSUL_CONFIG_DIR=$SNAP_DATA/consul/config
