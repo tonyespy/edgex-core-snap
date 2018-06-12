@@ -63,7 +63,7 @@ if [ $CORE_METADATA = "y" ] ; then
     echo "Starting metadata"
 
     cd $SNAP/config/core-metadata
-    $SNAP/bin/core-metadata -consul=y &
+    $SNAP/bin/core-metadata -consul &
 fi
 
 if [ $CORE_DATA = "y" ] ; then
@@ -71,7 +71,7 @@ if [ $CORE_DATA = "y" ] ; then
     echo "Starting core-data"
 
     cd $SNAP/config/core-data
-    $SNAP/bin/core-data -consul=y &
+    $SNAP/bin/core-data -consul &
 fi
 
 
@@ -80,7 +80,7 @@ if [ $CORE_COMMAND = "y" ] ; then
     echo "Starting command"
 
     cd $SNAP/config/core-command
-    $SNAP/bin/core-command -consul=y &
+    $SNAP/bin/core-command -consul &
 fi
 
 
@@ -103,7 +103,7 @@ if [ $EXPORT_CLIENT = "y" ] ; then
     echo "Starting export-client"
 
     # TODO: fix log file in res/configuration.json
-    $SNAP/bin/export-client &
+    $SNAP/bin/export-client -consul &
 fi
 
 if [ $EXPORT_DISTRO = "y" ] ; then
@@ -111,7 +111,7 @@ if [ $EXPORT_DISTRO = "y" ] ; then
     echo "Starting export-distro"
 
     # TODO: fix log file in res/configuration.json
-    $SNAP/bin/export-distro &
+    $SNAP/bin/export-distro -consul &
 fi
 
 if [ $DEVICE_VIRTUAL = "y" ] ; then
