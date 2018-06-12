@@ -6,8 +6,8 @@ description: |
  It's based on the 'California Preview' release of EdgeX, in which
  several of the core and export services have been re-written in Go.
  In addition to Mongodb and Consul, this snap also includes a shared
- OpenJDK JRE for use by all of the remaining Java-based services. The
- packaging for this snap can be found at:
+ OpenJDK JRE for use by the device-virtual service. The packaging for
+ this snap can be found at:
  https://github.com/tonyespy/edgex-core-snap
 
 grade: stable
@@ -266,7 +266,6 @@ parts:
       - -LICENSE-2.0.TXT
   edgex-go:
     source: https://github.com/edgexfoundry/edgex-go.git
-    source-commit: b3be17f
     plugin: shell
     after:
       - glide
@@ -298,12 +297,16 @@ parts:
       install -DT "./cmd/core-metadata/core-metadata" "$SNAPCRAFT_PART_INSTALL/bin/core-metadata"
       install -DT "./cmd/export-distro/export-distro" "$SNAPCRAFT_PART_INSTALL/bin/export-distro"
       install -DT "./cmd/export-client/export-client" "$SNAPCRAFT_PART_INSTALL/bin/export-client"
+      install -DT "./cmd/export-client/export-client" "$SNAPCRAFT_PART_INSTALL/bin/support-logging"
 
       # FIXME: settings can't be overridden from the cmd-line!
       # Override 'LogFile' and 'LoggingRemoteURL'
       install -d "$SNAPCRAFT_PART_INSTALL/config/core-command/res/"
       install -d "$SNAPCRAFT_PART_INSTALL/config/core-data/res/"
       install -d "$SNAPCRAFT_PART_INSTALL/config/core-metadata/res/"
+      install -d "$SNAPCRAFT_PART_INSTALL/config/export-client/res/"
+      install -d "$SNAPCRAFT_PART_INSTALL/config/export-distro/res/"
+      install -d "$SNAPCRAFT_PART_INSTALL/config/support-logging/res/"
 
       cat "./cmd/core-command/res/configuration.toml" | \
         sed -e s:./logs/edgex-core-command.log:/var/snap/edgexfoundry-core/common/core-command.log: \
@@ -319,6 +322,21 @@ parts:
         sed -e s:./logs/edgex-core-metadata.log:/var/snap/edgexfoundry-core/common/core-metadata.log: \
             -e s:'http\://localhost\:48061/api/v1/logs':: > \
        "$SNAPCRAFT_PART_INSTALL/config/core-metadata/res/configuration.toml"
+
+      cat "./cmd/export-client/res/configuration.toml" | \
+        sed -e s:./logs/edgex-export-client.log:/var/snap/edgexfoundry-core/common/export-client.log: \
+            -e s:'http\://localhost\:48061/api/v1/logs':: > \
+       "$SNAPCRAFT_PART_INSTALL/config/export-client/res/configuration.toml"
+
+      cat "./cmd/export-distro/res/configuration.toml" | \
+        sed -e s:./logs/edgex-export-distro.log:/var/snap/edgexfoundry-core/common/export-distro.log: \
+            -e s:'http\://localhost\:48061/api/v1/logs':: > \
+       "$SNAPCRAFT_PART_INSTALL/config/export-distro/res/configuration.toml"
+
+      cat "./cmd/support-logging/res/configuration.toml" | \
+        sed -e s:./logs/edgex-support-logging.log:/var/snap/edgexfoundry-core/common/support-logging.log: \
+            -e s:'http\://localhost\:48061/api/v1/logs':: > \
+       "$SNAPCRAFT_PART_INSTALL/config/support-logging/res/configuration.toml"
 
       # handle license files
       install -DT "./core/command/Attribution.txt" \
@@ -337,57 +355,17 @@ parts:
               "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/export-distro/LICENSE"
       install -DT "./LICENSE" \
               "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/export-client/LICENSE"
+      install -DT "./LICENSE" \
+              "$SNAPCRAFT_PART_INSTALL/usr/share/doc/github.com/edgexfoundry/support-logging/LICENSE"
     build-packages:
       - zip
       - pkg-config
     stage-packages:
       - libzmq3-dev
-  support-logging:
-    source: https://github.com/edgexfoundry/support-logging.git
-    # the following commit == 0.5.0 version update
-    source-commit: "1562d80"
-    plugin: maven
-    override-build: |
-      snapcraftctl build
-      echo "Installing support-logging files"
-
-      # The logic following logic is all handled by DockerFile for
-      # the EdgeX support-logging docker image.
-      install -d "$SNAPCRAFT_PART_INSTALL/jar/support-logging"
-      mv "$SNAPCRAFT_PART_INSTALL/jar/support-logging-0.5.0-SNAPSHOT.jar" \
-         "$SNAPCRAFT_PART_INSTALL/jar/support-logging/support-logging.jar"
-
-      # FIXME:
-      # copy service license into /usr/share/java/doc, because the
-      # jdk plugin has a bug which prevents any files from /usr/share/doc
-      # to be staged or primed.
-      install -DT "./Attribution.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-logging/Attribution.txt"
-      install -DT "./LICENSE-2.0.txt" \
-         "$SNAPCRAFT_PART_INSTALL/usr/share/java/doc/support-logging/LICENSE-2.0.txt"
-    prime:
-      - -etc/fonts
-      - -etc/fonts/X11
-      - -usr/lib/jvm/*/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/THIRD_PARTY_README
-      - -usr/lib/jvm/*/jre/ASSEMBLY_EXCEPTION
-      - -usr/lib/jvm/*/jre/THIRD_PARTY_README
-      - -usr/lib/jvm/*/man
-      - -usr/lib/jvm/*/jre/man
-      - -usr/lib/jvm/*/jre/lib/images
-      - -usr/lib/jvm/*/include
-      - -usr/lib/jvm/*/bin
-      - -usr/lib/jvm/*/lib
-      - -usr/lib/jvm/*/docs
-      - -usr/lib/jvm/*/src.zip
-      - -usr/share/X11
-      - -usr/share/man
-      - -usr/share/fonts
-      - -usr/share/alsa
   support-notifications:
     source: https://github.com/edgexfoundry/support-notifications.git
-    # the following commit == 0.5.0 version update +1 (test fix)
-    source-commit: "fa0dc61"
+    # the following commit == 0.5.0 version plus a few fixes
+    source-commit: "ddebc1b"
     plugin: maven
     override-build: |
       snapcraftctl build

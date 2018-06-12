@@ -42,9 +42,8 @@ if [ $SUPPORT_LOGGING = "y" ] ; then
     sleep 60
     echo "Starting logging"
 
-    $JAVA -jar -Djava.security.egd=file:/dev/urandom -Xmx100M \
-               -Dlogging.file=$SNAP_COMMON/edgex-logging.log \
-               $SNAP/jar/support-logging/support-logging.jar &
+    cd $SNAP/config/support-logging
+    $SNAP/bin/support-logging -consul &
 fi
 
 if [ $SUPPORT_NOTIFICATIONS = "y" ] ; then
