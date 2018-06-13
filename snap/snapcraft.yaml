@@ -297,7 +297,7 @@ parts:
       install -DT "./cmd/core-metadata/core-metadata" "$SNAPCRAFT_PART_INSTALL/bin/core-metadata"
       install -DT "./cmd/export-distro/export-distro" "$SNAPCRAFT_PART_INSTALL/bin/export-distro"
       install -DT "./cmd/export-client/export-client" "$SNAPCRAFT_PART_INSTALL/bin/export-client"
-      install -DT "./cmd/export-client/export-client" "$SNAPCRAFT_PART_INSTALL/bin/support-logging"
+      install -DT "./cmd/support-logging/support-logging" "$SNAPCRAFT_PART_INSTALL/bin/support-logging"
 
       # FIXME: settings can't be overridden from the cmd-line!
       # Override 'LogFile' and 'LoggingRemoteURL'
