@@ -266,6 +266,7 @@ parts:
       - -LICENSE-2.0.TXT
   edgex-go:
     source: https://github.com/edgexfoundry/edgex-go.git
+    source-commit: 1d29bc1
     plugin: shell
     after:
       - glide
