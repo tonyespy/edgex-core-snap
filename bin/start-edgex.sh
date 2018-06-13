@@ -102,7 +102,8 @@ if [ $EXPORT_CLIENT = "y" ] ; then
     echo "Starting export-client"
 
     # TODO: fix log file in res/configuration.json
-    $SNAP/bin/export-client -consul &
+    cd $SNAP/config/export-client
+    $SNAP/bin/export-client &
 fi
 
 if [ $EXPORT_DISTRO = "y" ] ; then
@@ -110,7 +111,8 @@ if [ $EXPORT_DISTRO = "y" ] ; then
     echo "Starting export-distro"
 
     # TODO: fix log file in res/configuration.json
-    $SNAP/bin/export-distro -consul &
+    cd $SNAP/config/export-distro
+    $SNAP/bin/export-distro &
 fi
 
 if [ $DEVICE_VIRTUAL = "y" ] ; then
