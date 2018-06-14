@@ -1,5 +1,5 @@
 name: edgexfoundry-core
-version: '0.5.1+cali-20180413'
+version: '0.5.2+cali-20180613'
 summary: Provides a full set of Edgex Foundry core microservices.
 description: |
  This snap provides a full set of EdgeX Foundry core micro services.
