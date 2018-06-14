@@ -7,8 +7,8 @@ manual steps involved.
 
 The snap contains all of the EdgeX core micro services, export services, support
 service, and the device-virtual service.  There currently are two versions available
-in the snap store, one based on the 'Barcelona' release, and one based on the recent
-'California Preview' release.
+in the snap store, one based on the 'Barcelona' release, and one based on the current
+'California' development release.
 
 ## Installation Requirements
 The snap can be installed on any system running snapd, however for full confinement,
@@ -26,8 +26,8 @@ The Barcelona based snap can be installed with:
 
 `$ sudo snap install edgexfoundry-core --edge`
 
-### California Preview
-The California Preview based snap can be installed with:
+### California
+The California based snap can be installed with:
 
 `$ sudo snap install edgexfoundry-core --channel=cali/edge`
 
@@ -77,7 +77,7 @@ least once to copy the default version into place.
   * the start script will fail on a sytem which has more than one local IP address, or active bridge
     network devices as the current consul start command doesn't specify a specific IP address for the agent.
 
-### California (0.5.1+cali-20180322)
+### California
   * the California snap is much smaller (~400MB)
 
   * some of the new Go-based core services (export-*) currently don't load configuration from Consul
