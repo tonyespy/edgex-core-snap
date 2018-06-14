@@ -5,10 +5,10 @@ micros services.
 This is an early experiment, and as such, there are quite a few limitations and
 manual steps involved.
 
-The snap contains all of the EdgeX core micro services, export services, and the
-device-virtual service.  There currently are two versions available in the snap store,
-one based on the 'Barcelona' release, and one based on the recent 'California Preview'
-release.
+The snap contains all of the EdgeX core micro services, export services, support
+service, and the device-virtual service.  There currently are two versions available
+in the snap store, one based on the 'Barcelona' release, and one based on the recent
+'California Preview' release.
 
 ## Installation Requirements
 The snap can be installed on any system running snapd, however for full confinement,
@@ -31,18 +31,14 @@ The California Preview based snap can be installed with:
 
 `$ sudo snap install edgexfoundry-core --channel=cali/edge`
 
-**Note 1** - this snap has only been tested on Ubuntu 16.04 LTS Desktop/Server and Ubuntu Core 16.
-
-**Note 2** - the start script will fail on a sytem which has more than one local IP address,
-or active bridge network devices as the current consul start command doesn't specify a specific
-IP address for the agent.
+**Note** - this snap has only been tested on Ubuntu 16.04 LTS Desktop/Server and Ubuntu Core 16.
 
 **WARNING** - as this snap is still considered experimental, please don't install it
 on a machine that you can't live without.  Use a VM or cloud server instance, or a spare
 desktop/server.
 
 ## Configuration
-The hardware-observer and system-observe interfaces needs to be connected after installation
+The hardware-observe, process-control, and system-observe interfaces needs to be connected after installation
 using the following commands:
 
 `$ snap connect edgexfoundry-core:hardware-observe core:hardware-observe`
@@ -76,12 +72,15 @@ least once to copy the default version into place.
   * the Barcelona snap is large (~590M), however it only includes a single JRE, shared by all services.
 
   * none of the services are actually defined as such in snapcraft.yaml, instead shell-scripts are used
-    to start and stop the EdgeX microservices.
+    to start and stop the EdgeX microservices and dependent services such as consul and mongo.
+
+  * the start script will fail on a sytem which has more than one local IP address, or active bridge
+    network devices as the current consul start command doesn't specify a specific IP address for the agent.
 
 ### California (0.5.1+cali-20180322)
   * the California snap is much smaller (~400MB)
 
-  * the new Go-based core services currently don't load configuration from Consul
+  * some of the new Go-based core services (export-*) currently don't load configuration from Consul
 
   * the new Go-based export services don't generate log files, and export-client has a broken health check
 
@@ -94,4 +93,4 @@ This snap can be built on an Ubuntu 16.04 LTS system:
  * cd edgex-core-snap
  * snapcraft
 
-This should produce a binary snap package called edgex-core-snap_0.5.1+calip-X_amd64.snap.
+This should produce a binary snap package called edgex-core-snap_<latest version>_<arch>.snap.
