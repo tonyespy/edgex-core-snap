@@ -43,7 +43,7 @@ using the following commands:
 
 `$ snap connect edgexfoundry-core:hardware-observe core:hardware-observe`
 
-`$ snap connect edgexfoundry-core:hardware-observe core:process-control`
+`$ snap connect edgexfoundry-core:process-control core:process-control`
 
 `$ snap connect edgexfoundry-core:system-observe core:system-observe`
 
